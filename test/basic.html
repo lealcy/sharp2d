@@ -3,15 +3,24 @@
 <head>
     <meta charset="utf-8">
     <title>Basic Sharp2d Structure</title>
+    <script src="../src/sharp2d/Sharp2d.js"></script>
+    <script src="../src/sharp2d/Mouse.js"></script>
+    <script src="../src/sharp2d/Keyboard.js"></script>
+    <script src="../src/sharp2d/Scene.js"></script>
+    <script src="../src/sharp2d/Sprite.js"></script>
+    <script src="../src/sharp2d/SpriteList.js"></script>
+    <script src="../src/sharp2d/Entity.js"></script>
+    <script src="Game.js"></script>
+
 </head>
 <body onload="init()">
     <canvas width="800" height="600">
     <script>
     "use strict";
-    import "Game.js";
+    // import "Game.js";
     function init() {
-        var game = new Game(document.queryElement("canvas"));
-        Game.start();
+        var game = new Game(document.querySelector("canvas"));
+        console.log(game);
     }
     </script>
 </body>

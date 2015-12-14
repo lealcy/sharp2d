@@ -1,5 +1,8 @@
 "use strict";
 
-export class Entity {
-
+/* export */
+class Entity {
+    get toString() {
+        return this.constructor.name;
+    }
 }

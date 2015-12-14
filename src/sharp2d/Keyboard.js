@@ -1,5 +1,8 @@
 "use strict";
 
-export class Keyboard {
-
+/* export */
+class Keyboard {
+    get toString() {
+        return this.constructor.name;
+    }
 }

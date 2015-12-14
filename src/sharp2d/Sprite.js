@@ -1,5 +1,8 @@
 "use strict";
 
-export class Sprite {
-
+/* export */
+class Sprite {
+    get toString() {
+        return this.constructor.name;
+    }
 }
