@@ -2,11 +2,7 @@
 
 /* export */
 class Entity {
-    constructor(scene) {
-        if (scene === undefined) {
-            console.error("Entities can only exists inside scenes");
-        }
-        this._scene = scene || null;
+    constructor() {
         this._x = 0;
         this._y = 0;
         this._width = 0;
@@ -14,24 +10,12 @@ class Entity {
         this._visible = false;
     }
 
-    start() {
+    start(scene) {
         // To be extended
     }
 
-    update() {
+    update(scene) {
         // To be extended
-    }
-
-    set scene(value) {
-        if (value.constructor.name !== "Scene") {
-            console.error("scene must be of type Scene.");
-            return;
-        }
-        this._scene = value;
-    }
-
-    get scene() {
-        return this._scene;
     }
 
     set x(value) {
@@ -43,7 +27,7 @@ class Entity {
     }
 
     set y(value) {
-        this._x = value;
+        this._y = value;
     }
 
     get y() {

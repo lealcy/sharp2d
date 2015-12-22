@@ -15,8 +15,8 @@ class Sharp2d {
         this._canvas.focus();
 
         this._context = this._canvas.getContext("2d");
-        this._mouse = new Mouse(this.canvas);
-        this._keyboard = new Keyboard(this.canvas);
+        this._mouse = new Mouse(this._canvas);
+        this._keyboard = new Keyboard(this._canvas);
         this._scene = new Scene(this);
         this._running = false;
         this._updateInterval = 1000 / 60; // 60 fps.
@@ -30,6 +30,7 @@ class Sharp2d {
 
     start() {
         this._running = true;
+        this._keyboard.start();
         this._scene.start();
         this.update();
     }
@@ -39,6 +40,7 @@ class Sharp2d {
             this._requestAnimFrame.call(window, this.update.bind(this));
             this.clear();
             this._scene.update();
+            this._keyboard.update();
         }
     }
 
@@ -56,5 +58,17 @@ class Sharp2d {
 
     get scene() {
         return this._scene;
+    }
+
+    get keyboard() {
+        return this._keyboard;
+    }
+
+    get width() {
+        return this._canvas.width;
+    }
+
+    get height() {
+        return this._canvas.height;
     }
 }

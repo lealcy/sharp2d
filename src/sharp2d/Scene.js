@@ -17,18 +17,22 @@ class Scene {
 
     start() {
         this._entities.forEach((entity) => {
-            entity.start();
+            entity.start(this);
         });
     }
 
     update() {
         this._entities.forEach((entity) => {
-            entity.update();
+            entity.update(this);
         });
     }
 
     drawImage(image, x, y) {
         this._sharp2d.drawImage(image, x, y);
+    }
+
+    get sharp2d() {
+        return this._sharp2d;
     }
 
 }

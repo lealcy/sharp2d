@@ -6,7 +6,7 @@
 class Game extends Sharp2d {
     constructor(canvasElement) {
         super(canvasElement);
-        this.ball = new Sprite(this.scene, "images/Soccer_Ball.png");
+        this.ball = new Ball();
         this.scene.add(this.ball);
     }
 }
