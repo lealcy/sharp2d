@@ -3,13 +3,14 @@
 <head>
     <meta charset="utf-8">
     <title>Basic Sharp2d Structure</title>
-    <script src="../src/sharp2d/Sharp2d.js"></script>
     <script src="../src/sharp2d/Mouse.js"></script>
     <script src="../src/sharp2d/Keyboard.js"></script>
     <script src="../src/sharp2d/Scene.js"></script>
-    <script src="../src/sharp2d/Sprite.js"></script>
     <script src="../src/sharp2d/SpriteList.js"></script>
     <script src="../src/sharp2d/Entity.js"></script>
+    <script src="../src/sharp2d/Sprite.js"></script>
+    <script src="../src/sharp2d/Camera.js"></script>
+    <script src="../src/sharp2d/Sharp2d.js"></script>
     <script src="Game.js"></script>
 
 </head>
@@ -21,6 +22,7 @@
     function init() {
         var game = new Game(document.querySelector("canvas"));
         console.log(game);
+        game.start();
     }
     </script>
 </body>
