@@ -10,11 +10,11 @@ class Entity {
         this._visible = false;
     }
 
-    start(scene) {
+    start() {
         // To be extended
     }
 
-    update(scene) {
+    update() {
         // To be extended
     }
 

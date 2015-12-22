@@ -6,7 +6,7 @@ class Keyboard {
         this._canvas = canvas;
         this._keyDownList = new Set();
         this._keyUpList = new Set();
-        // this._ignoreKeys = new WeakSet([Keys.F5, Keys.F12]);
+        this._ignoreThisKeys = new Set([this.keys.F5, this.keys.F12]);
     }
 
     start() {
@@ -26,13 +26,31 @@ class Keyboard {
         return this._keyUpList.has(keyCode);
     }
 
+    ignoreThisKey(keyCode) {
+        this._ignoreThisKeys.add(keyCode);
+    }
+
+    dontIgnoreThisKey(KeyCode) {
+        this._ignoreThisKeys.delete(keyCode);
+    }
+
+    isKeyIgnored(keyCode) {
+        return this._ignoreThisKeys.has(keyCode);
+    }
+
     _keyDown(e) {
+        if(this._ignoreThisKeys.has(e.keyCode)) {
+            return true;
+        }
         e.preventDefault();
         this._keyDownList.add(e.keyCode);
         return false;
     }
 
     _keyUp(e) {
+        if(this._ignoreThisKeys.has(e.keyCode)) {
+            return true;
+        }
         e.preventDefault();
         this._keyDownList.delete(e.keyCode);
         this._keyUpList.add(e.keyCode);

@@ -5,8 +5,8 @@ class Ball extends Sprite {
         super("images/Soccer_Ball.png");
     }
 
-    start(scene) {
-        super.start(scene);
+    start() {
+        super.start();
 
     }
 

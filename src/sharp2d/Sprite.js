@@ -16,7 +16,7 @@ class Sprite extends Entity {
     }
 
     start(scene) {
-        super.start(scene);
+        super.start();
         // to be extended
     }
 
