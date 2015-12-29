@@ -3,6 +3,7 @@
 class Ball extends Sprite {
     constructor() {
         super("images/Soccer_Ball.png");
+        this._onTheMove = false;
     }
 
     start() {
@@ -18,8 +19,14 @@ class Ball extends Sprite {
             if (mouse.x >= this.x && mouse.y >= this.y &&
                 mouse.x < (this.width + this.x) &&
                 mouse.y < (this.height + this.y)) {
+                this._onTheMove = true;
+            }
+            if (this._onTheMove) {
                 this.centerOn(mouse.x, mouse.y);
             }
+        }
+        if (mouse.leftUp) {
+            this._onTheMove = false;
         }
         if (kbd.keyDown(kbd.keys.RIGHT)) {
             this.x += 10;
