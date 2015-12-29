@@ -2,8 +2,8 @@
 
 /* export */
 class Keyboard {
-    constructor(canvas) {
-        this._canvas = canvas;
+    constructor(canvasElement) {
+        this._canvas = canvasElement;
         this._keyDownList = new Set();
         this._keyUpList = new Set();
         this._ignoreThisKeys = new Set([this.keys.F5, this.keys.F12]);

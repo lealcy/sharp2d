@@ -30,6 +30,7 @@ class Sharp2d {
 
     start() {
         this._running = true;
+        this._mouse.start();
         this._keyboard.start();
         this._scene.start();
         this.update();
@@ -40,6 +41,7 @@ class Sharp2d {
             this._requestAnimFrame.call(window, this.update.bind(this));
             this.clear();
             this._scene.update();
+            this._mouse.update();
             this._keyboard.update();
         }
     }
