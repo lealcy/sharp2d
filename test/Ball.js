@@ -28,6 +28,15 @@ class Ball extends Sprite {
         if (mouse.leftUp) {
             this._onTheMove = false;
         }
+        if (mouse.wheelUp) {
+            console.log("up");
+            this.scale += 0.1;
+        }
+        if (mouse.wheelDown) {
+            console.log("down");
+            this.scale -= 0.1;
+        }
+
         if (kbd.keyDown(kbd.keys.RIGHT)) {
             this.x += 10;
         }

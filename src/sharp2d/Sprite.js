@@ -23,7 +23,8 @@ class Sprite extends Entity {
     update(scene) {
         super.update();
         if (this._visible && this._imageReady) {
-            scene.drawImage(this._image, this._x, this._y);
+            scene.drawImage(this._image, this.x, this.y, this.width,
+                this.height);
         }
     }
 

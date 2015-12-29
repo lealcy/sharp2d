@@ -27,8 +27,8 @@ class Scene {
         });
     }
 
-    drawImage(image, x, y) {
-        this._sharp2d.drawImage(image, x, y);
+    drawImage(image, x, y, width, height) {
+        this._sharp2d.drawImage(image, x, y, width, height);
     }
 
     get sharp2d() { return this._sharp2d; }

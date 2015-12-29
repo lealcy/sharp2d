@@ -53,8 +53,8 @@ class Sharp2d {
         this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
     }
 
-    drawImage(image, x, y) {
-        this._context.drawImage(image, x, y);
+    drawImage(image, x, y, width, height) {
+        this._context.drawImage(image, x, y, width, height);
     }
 
     newContext() {
