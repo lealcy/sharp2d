@@ -12,7 +12,11 @@ class Ball extends Sprite {
 
     update(scene) {
         super.update(scene);
+        var mouse = scene.sharp2d.mouse;
         var kbd = scene.sharp2d.keyboard;
+        if (mouse.leftDown) {
+            this.centerOn(mouse.x, mouse.y);
+        }
         if (kbd.keyDown(kbd.keys.RIGHT)) {
             this.x += 10;
         }
