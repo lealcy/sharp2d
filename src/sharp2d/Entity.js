@@ -18,46 +18,20 @@ class Entity {
         // To be extended
     }
 
-    set x(value) {
-        this._x = value;
+    centerOn (x, y) {
+        this._x = x - this._width / 2;
+        this._y = y - this._height / 2;
     }
 
-    get x() {
-        return this._x;
-    }
-
-    set y(value) {
-        this._y = value;
-    }
-
-    get y() {
-        return this._y;
-    }
-
-    set width(value) {
-        this._width = value;
-    }
-
-    get width() {
-        return this._width;
-
-    }
-
-    set height(value) {
-        this._height = value;
-
-    }
-
-    get height() {
-        return this._height;
-    }
-
-    set visible(value) {
-        this._visible = value;
-    }
-
-    get visible() {
-        return this._visible;
-    }
+    set x(value) { this._x = value; }
+    get x() { return this._x; }
+    set y(value) { this._y = value; }
+    get y() { return this._y; }
+    set width(value) { this._width = value; }
+    get width() { return this._width; }
+    set height(value) { this._height = value; }
+    get height() { return this._height; }
+    set visible(value) { this._visible = value; }
+    get visible() { return this._visible; }
 
 }
