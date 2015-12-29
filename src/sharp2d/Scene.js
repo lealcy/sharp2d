@@ -31,8 +31,6 @@ class Scene {
         this._sharp2d.drawImage(image, x, y);
     }
 
-    get sharp2d() {
-        return this._sharp2d;
-    }
+    get sharp2d() { return this._sharp2d; }
 
 }
