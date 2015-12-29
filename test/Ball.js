@@ -29,11 +29,9 @@ class Ball extends Sprite {
             this._onTheMove = false;
         }
         if (mouse.wheelUp) {
-            console.log("up");
             this.scale += 0.1;
         }
         if (mouse.wheelDown) {
-            console.log("down");
             this.scale -= 0.1;
         }
 
