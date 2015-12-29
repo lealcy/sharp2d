@@ -46,6 +46,33 @@ class Mouse {
         }
     }
 
+    get x() { return this._x; }
+    get y() { return this._y; }
+    get leftDown() { return this._buttonsDown.has(this.buttons.LEFT); }
+    get centerDown() { return this._buttonsDown.has(this.buttons.CENTER); }
+    get rightDown() { return this._buttonsDown.has(this.buttons.RIGHT); }
+    get leftUp() { return this._buttonsUp.has(this.buttons.LEFT); }
+    get centerUp() { return this._buttonsUp.has(this.buttons.CENTER); }
+    get rightUp() { return this._buttonsUp.has(this.buttons.RIGHT); }
+    get leftClick() { return this._buttonsClick.has(this.buttons.LEFT); }
+    get centerClick() { return this._buttonsClick.has(this.buttons.CENTER); }
+    get rightClick() { return this._buttonsClick.has(this.buttons.RIGHT); }
+    get wheelUp() { return this._wheelUp; }
+    get wheelDown() { return this._wheelDown; }
+    get out() { return this._out; }
+    get contextMenu() { return this._context; }
+
+    get buttons() {
+        return {
+            NONE: -1,
+            LEFT: 0,
+            CENTER: 1,
+            RIGHT: 2,
+            WHEEL_UP: 1,
+            WHEEL_DOWN: -1,
+            WHEEL_NONE: 0,
+        };
+    }
     _mouseDown(e) {
         var e = this._normalizeDOMMouseEvent(e);
         this._buttonsDown.add(e.button);
@@ -71,6 +98,8 @@ class Mouse {
 
     _mouseMove(e) {
         var e = this._normalizeDOMMouseEvent(e);
+        this._x = e.x;
+        this._y = e.y;
         this._move = true;
         if (this._dragStart) {
             if (this._dragMove) {
@@ -105,18 +134,6 @@ class Mouse {
     _contextMenu(e) {
         this._context = true;
         return false;
-    }
-
-    get buttons() {
-        return {
-            NONE: -1,
-            LEFT: 0,
-            CENTER: 1,
-            RIGHT: 2,
-            WHEEL_UP: 1,
-            WHEEL_DOWN: -1,
-            WHEEL_NONE: 0,
-        };
     }
 
     _normalizeDOMMouseEvent(e) {
