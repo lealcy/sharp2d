@@ -15,7 +15,11 @@ class Ball extends Sprite {
         var mouse = scene.sharp2d.mouse;
         var kbd = scene.sharp2d.keyboard;
         if (mouse.leftDown) {
-            this.centerOn(mouse.x, mouse.y);
+            if (mouse.x >= this.x && mouse.y >= this.y &&
+                mouse.x < (this.width + this.x) &&
+                mouse.y < (this.height + this.y)) {
+                this.centerOn(mouse.x, mouse.y);
+            }
         }
         if (kbd.keyDown(kbd.keys.RIGHT)) {
             this.x += 10;
