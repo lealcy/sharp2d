@@ -26,6 +26,7 @@ class Sharp2d {
             function(callback) {
                 setTimeout(callback, this.updateInterval);
             };
+        this._clearOnUpdate = true;
     }
 
     start() {
@@ -39,7 +40,9 @@ class Sharp2d {
     update() {
         if (this._running) {
             this._requestAnimFrame.call(window, this.update.bind(this));
-            this.clear();
+            if (this._clearOnUpdate) {
+                this.clear();
+            }
             this._scene.update();
             this._mouse.update();
             this._keyboard.update();
@@ -54,23 +57,17 @@ class Sharp2d {
         this._context.drawImage(image, x, y);
     }
 
-    get running() {
-        return this._running;
+    newContext() {
+        return this._canvas.getContext("2d");
     }
 
-    get scene() {
-        return this._scene;
-    }
-
-    get keyboard() {
-        return this._keyboard;
-    }
-
-    get width() {
-        return this._canvas.width;
-    }
-
-    get height() {
-        return this._canvas.height;
-    }
+    get running() { return this._running; }
+    get scene() { return this._scene; }
+    get mouse() { return this._mouse; }
+    get keyboard() { return this._keyboard; }
+    get width() { return this._canvas.width; }
+    get height() { return this._canvas.height; }
+    get canvas() { return this._canvas; }
+    get context() { return this._context; }
+    set clearOnUpdate(value) { this._clearOnUpdate = value; }
 }
