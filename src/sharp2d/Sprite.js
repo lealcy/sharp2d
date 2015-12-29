@@ -27,9 +27,7 @@ class Sprite extends Entity {
         }
     }
 
-    get image() {
-        return this._image;
-    }
+    get image() { return this._image; }
 
     _imageLoaded() {
         this._width = this._image.width;
