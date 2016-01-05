@@ -2,17 +2,13 @@
 
 /* export */
 class Sprite extends Entity {
-    constructor(fileName) {
+    constructor(src) {
         super();
-        this._fileName = fileName || null;
+        this.visible = true;
+        this._src = src;
         this._image = null;
         this._imageReady = false;
-        if (this._fileName) {
-            this._image = new Image();
-            this._image.onload = this._imageLoaded.bind(this);
-            this._image.src = this._fileName;
-            this._visible = true;
-        }
+        this._loadImage();
     }
 
     start(scene) {
@@ -29,6 +25,18 @@ class Sprite extends Entity {
     }
 
     get image() { return this._image; }
+    get src() { return this._src; }
+    set src(value) {
+        this._src = value;
+        this._loadImage();
+    }
+
+    _loadImage() {
+        this._imageReady = false;
+        this._image = new Image();
+        this._image.onload = this._imageLoaded.bind(this);
+        this._image.src = this._src;
+    }
 
     _imageLoaded() {
         this._width = this._image.width;
