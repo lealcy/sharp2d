@@ -35,16 +35,16 @@ class Ball extends Sprite {
             this.scale -= 0.1;
         }
 
-        if (kbd.keyDown(kbd.keys.RIGHT)) {
+        if (kbd.keyDown(kbd.keys.right)) {
             this.x += 10;
         }
-        if (kbd.keyDown(kbd.keys.DOWN)) {
+        if (kbd.keyDown(kbd.keys.down)) {
             this.y += 10;
         }
-        if (kbd.keyDown(kbd.keys.LEFT)) {
+        if (kbd.keyDown(kbd.keys.left)) {
             this.x -= 10;
         }
-        if (kbd.keyDown(kbd.keys.UP)) {
+        if (kbd.keyDown(kbd.keys.up)) {
             this.y -= 10;
         }
         if (this.x > scene.sharp2d.width - this.width) {
