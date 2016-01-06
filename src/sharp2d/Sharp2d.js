@@ -23,9 +23,7 @@ class Sharp2d {
         this._requestAnimFrame = window.requestAnimationFrame ||
             window.webkitRequestAnimationFrame ||
             window.mozRequestAnimationFrame ||
-            function(callback) {
-                setTimeout(callback, this.updateInterval);
-            };
+            ((callback) => { setTimeout(callback, this.updateInterval); });
         this._clearOnUpdate = true;
     }
 
