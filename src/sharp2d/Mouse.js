@@ -62,17 +62,6 @@ class Mouse {
     get out() { return this._out; }
     get contextMenu() { return this._context; }
 
-    get buttons() {
-        return {
-            none: -1,
-            left: 0,
-            center: 1,
-            right: 2,
-            wheelUp: 1,
-            wheelDown: -1,
-            wheelNone: 0,
-        };
-    }
     _mouseDown(e) {
         var e = this._normalizeDOMMouseEvent(e);
         this._buttonsDown.add(e.button);
@@ -146,3 +135,13 @@ class Mouse {
         };
     }
 }
+
+Mouse.prototype.buttons = {
+    none: -1,
+    left: 0,
+    center: 1,
+    right: 2,
+    wheelUp: 1,
+    wheelDown: -1,
+    wheelNone: 0,
+};
