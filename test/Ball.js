@@ -2,19 +2,21 @@
 
 class Ball extends Sprite {
     constructor() {
-        super("images/Soccer_Ball.png");
+        super("images/test_sprite.png");
         this._onTheMove = false;
+        this.x = 100;
+        this.y = 100;
+        this._pivot = this.pivots.center;
     }
 
     start() {
         super.start();
-
     }
 
     update(scene) {
         super.update(scene);
-        var mouse = scene.sharp2d.mouse;
-        var kbd = scene.sharp2d.keyboard;
+        var mouse = scene.gameInstance.mouse;
+        var kbd = scene.gameInstance.keyboard;
         if (mouse.leftDown) {
             if (mouse.x >= this.x && mouse.y >= this.y &&
                 mouse.x < (this.width + this.x) &&
@@ -22,7 +24,8 @@ class Ball extends Sprite {
                 this._onTheMove = true;
             }
             if (this._onTheMove) {
-                this.centerOn(mouse.x, mouse.y);
+                this.x = mouse.x;
+                this.y = mouse.y;
             }
         }
         if (mouse.leftUp) {
@@ -46,18 +49,6 @@ class Ball extends Sprite {
         }
         if (kbd.keyDown(kbd.keys.up)) {
             this.y -= 10;
-        }
-        if (this.x > scene.sharp2d.width - this.width) {
-            this.x = scene.sharp2d.width - this.width;
-        }
-        if (this.x < 0) {
-            this.x = 0
-        }
-        if (this.y > scene.sharp2d.height - this.height) {
-            this.y = scene.sharp2d.height - this.height;
-        }
-        if (this.y < 0) {
-            this.y = 0;
         }
     }
 }
