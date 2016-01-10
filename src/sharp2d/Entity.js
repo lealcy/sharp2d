@@ -11,8 +11,6 @@ class Entity {
         this._xScale = 1.0;
         this._yScale = 1.0;
         this._pivot = this.pivots.topLeft;
-        this._offsetX = 0; //the pivot offset.
-        this._offsetY = 0; //the pivot offset.
     }
 
     start() {
@@ -37,8 +35,7 @@ class Entity {
     }
 
     get drawX() {
-        this._calculatePivotOffsets();
-        return this._x - this._offsetX;
+        return this._x - this.offsetX;
     }
 
     set y(value) {
@@ -50,8 +47,7 @@ class Entity {
     }
 
     get drawY() {
-        this._calculatePivotOffsets();
-        return this._y - this._offsetY;
+        return this._y - this.offsetY;
     }
 
     set width(value) {
@@ -108,48 +104,51 @@ class Entity {
 
     get yScale() { return this._yScale; }
 
-    _calculatePivotOffsets() {
+    get offsetX() {
         switch(this._pivot) {
             case this.pivots.center:
-                this._offsetX = this.width / 2;
-                this._offsetY = this.height / 2;
-                break;
             case this.pivots.top:
-                this._offsetX = this.width / 2;
-                this._offsetY = 0;
+            case this.pivots.bottomRight:
+            case this.pivots.bottom:
+                return this.width / 2;
                 break;
             case this.pivots.topRight:
-                this._offsetX = this.width;
-                this._offsetY = 0;
-                break;
             case this.pivots.right:
-                this._offsetX = this.width;
-                this._offsetY = this.height / 2;
-                break;
-            case this.pivots.bottomRight:
-                this._offsetX = this.width / 2;
-                this._offsetY = this.height / 2;
-                break;
-            case this.pivots.bottom:
-                this._offsetX = this.width / 2;
-                this._offsetY = this.height;
+                return this.width;
                 break;
             case this.pivots.bottomLeft:
-                this._offsetX = 0;
-                this._offsetY = this.height;
-                break;
             case this.pivots.left:
-                this._offsetX = 0;
-                this._offsetY = this.height / 2;
-                break;
             case this.pivots.topLeft:
-                this._offsetX = 0;
-                this._offsetY = 0;
+                return 0;
                 break;
             default:
                 console.log("Invalid pivot value.");
                 break;
         }
+    }
+
+    get offsetY() {
+        switch(this._pivot) {
+            case this.pivots.right:
+            case this.pivots.bottomRight:
+            case this.pivots.center:
+            case this.pivots.left:
+                return this.height / 2;
+                break;
+            case this.pivots.bottom:
+            case this.pivots.bottomLeft:
+                return this.height;
+                break;
+            case this.pivots.topLeft:
+            case this.pivots.top:
+            case this.pivots.topRight:
+                return 0;
+                break;
+            default:
+                console.log("Invalid pivot value.");
+                break;
+        }
+
     }
 }
 
