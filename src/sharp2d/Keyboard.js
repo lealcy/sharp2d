@@ -38,6 +38,14 @@ class Keyboard {
         return this._ignoreThisKeys.has(keyCode);
     }
 
+    doStart() {
+        this.start();
+    }
+
+    doUpdate() {
+        this.update();
+    }
+
     _keyDown(e) {
         if(this._ignoreThisKeys.has(e.keyCode)) {
             return true;

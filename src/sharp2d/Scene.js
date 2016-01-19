@@ -1,14 +1,10 @@
 "use strict";
 
 /* export */
-class Scene {
+class Scene extends Entity {
     constructor(gameInstance) {
-        if (gameInstance === undefined) {
-            console.error("Scene must receive a Sharp2d instance.");
-        }
-        this._gi = gameInstance;
+        super(gameInstance);
         this._entities = [];
-
     }
 
     add(entity) {
@@ -17,20 +13,13 @@ class Scene {
 
     start() {
         this._entities.forEach((entity) => {
-            entity.start(this);
+            entity.doStart();
         });
     }
 
     update() {
         this._entities.forEach((entity) => {
-            entity.update(this);
+            entity.doUpdate();
         });
     }
-
-    drawImage(image, x, y, width, height) {
-        this._gi.drawImage(image, x, y, width, height);
-    }
-
-    get gameInstance() { return this._gi; }
-
 }

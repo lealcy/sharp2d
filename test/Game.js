@@ -6,7 +6,7 @@
 class Game extends Sharp2d {
     constructor(canvasElement) {
         super(canvasElement);
-        this.ball = new Ball();
+        this.ball = new Ball(this);
         this.scene.add(this.ball);
     }
 }

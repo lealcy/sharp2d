@@ -46,6 +46,14 @@ class Mouse {
         }
     }
 
+    doStart() {
+        this.start();
+    }
+
+    doUpdate() {
+        this.update();
+    }
+
     get x() { return this._x; }
     get y() { return this._y; }
     get leftDown() { return this._buttonsDown.has(this.buttons.left); }

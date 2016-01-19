@@ -2,14 +2,15 @@
 
 /* export */
 class Entity {
-    constructor() {
+    constructor(gameInstance) {
+        this._gi = gameInstance;
         this._x = 0;
         this._y = 0;
         this._width = 0;
         this._height = 0;
-        this._visible = false;
-        this._xScale = 1.0;
-        this._yScale = 1.0;
+        this._enabled = true;
+        this._scaleWidth = 1.0;
+        this._scaleHeight = 1.0;
         this._pivot = this.pivots.topLeft;
     }
 
@@ -21,9 +22,54 @@ class Entity {
         // To be extended
     }
 
-    setScale(xValue, yValue) {
-        this.xScale = xValue;
-        this.yScale = yValue;
+    doStart() {
+        this.start();
+    }
+
+    doUpdate() {
+        if (this.enabled) {
+            this._gi.context.save();
+            this._gi.context.scale(this._scaleWidth, this._scaleHeight);
+            switch(this._pivot) {
+                case this.pivots.top:
+                    this._gi.context.translate(-(this.width / 2), 0);
+                    break;
+                case this.pivots.topRight:
+                    this._gi.context.translate(-this.width, 0);
+                    break;
+                case this.pivots.right:
+                    this._gi.context.translate(-this.width, -(this.height / 2));
+                    break;
+                case this.pivots.bottomRight:
+                    this._gi.context.translate(-this.width, -this.height);
+                    break;
+                case this.pivots.bottom:
+                    this._gi.context.translate(-(this.width / 2), -this.height);
+                    break;
+                case this.pivots.bottomLeft:
+                    this._gi.context.translate(0, -this.height);
+                    break;
+                case this.pivots.left:
+                    this._gi.context.translate(0, -(this.height / 2));
+                    break;
+                case this.pivots.topLeft:
+                    break;
+                case this.pivots.center:
+                    this._gi.context.translate(-(this.width / 2),
+                        -(this.height / 2));
+                    break;
+                default:
+                    console.log("Invalid pivot value.");
+                    break;
+            }
+            this.update();
+            this._gi.context.restore();
+        }
+    }
+
+    scale(width, height) {
+        this._scaleWidth = width;
+        this._scaleHeight = height;
     }
 
     set x(value) {
@@ -34,20 +80,12 @@ class Entity {
         return this._x;
     }
 
-    get drawX() {
-        return this._x - this.offsetX;
-    }
-
     set y(value) {
         this._y = value;
     }
 
     get y() {
         return this._y;
-    }
-
-    get drawY() {
-        return this._y - this.offsetY;
     }
 
     set width(value) {
@@ -58,10 +96,6 @@ class Entity {
         return this._width;
     }
 
-    get drawWidth() {
-        return this._width * this._xScale;
-    }
-
     set height(value) {
         this._height = value;
     }
@@ -70,85 +104,36 @@ class Entity {
         return this._height;
     }
 
-    get drawHeight() {
-        return this._height * this._yScale;
+    get enable() {
+        return this._enabled = true;
     }
 
-    set visible(value) {
-        this._visible = value;
+    get disable() {
+        return this._enabled = false;
     }
 
-    get visible() { return this._visible; }
-
-    set scale(value) {
-        this.setScale(value, value);
+    get enabled() {
+        return this._enabled;
     }
 
-    get scale() {
-        return (this.xScale + this.yScale) / 2;
-    }
-
-    set xScale(value) {
+    set scaleWidth(value) {
         if (value >= 0) {
-            this._xScale = value;
+            this._scaleWidth = value;
         }
     }
 
-    get xScale() { return this._xScale; }
+    get scaleWidth() { return this._scaleWidth; }
 
-    set yScale(value) {
+    set scaleHeight(value) {
         if (value >= 0) {
-            this._yScale = value;
+            this._scaleHeight = value;
         }
     }
 
-    get yScale() { return this._yScale; }
+    get scaleHeight() { return this._scaleHeight; }
 
-    get offsetX() {
-        switch(this._pivot) {
-            case this.pivots.center:
-            case this.pivots.top:
-            case this.pivots.bottomRight:
-            case this.pivots.bottom:
-                return this.width / 2;
-                break;
-            case this.pivots.topRight:
-            case this.pivots.right:
-                return this.width;
-                break;
-            case this.pivots.bottomLeft:
-            case this.pivots.left:
-            case this.pivots.topLeft:
-                return 0;
-                break;
-            default:
-                console.log("Invalid pivot value.");
-                break;
-        }
-    }
-
-    get offsetY() {
-        switch(this._pivot) {
-            case this.pivots.right:
-            case this.pivots.bottomRight:
-            case this.pivots.center:
-            case this.pivots.left:
-                return this.height / 2;
-                break;
-            case this.pivots.bottom:
-            case this.pivots.bottomLeft:
-                return this.height;
-                break;
-            case this.pivots.topLeft:
-            case this.pivots.top:
-            case this.pivots.topRight:
-                return 0;
-                break;
-            default:
-                console.log("Invalid pivot value.");
-                break;
-        }
-
+    get gameInstance() {
+        return this._gi;
     }
 }
 

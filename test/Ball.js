@@ -1,22 +1,18 @@
 "use strict";
 
-class Ball extends Sprite {
-    constructor() {
-        super("images/test_sprite.png");
-        this._onTheMove = false;
+class Ball extends Entity {
+    constructor(gameInstance) {
+        super(gameInstance);
+        this.sprite = new Sprite("images/test_sprite.png");
+        this.onTheMove = false;
         this.x = 100;
         this.y = 100;
-        this._pivot = this.pivots.center;
+        this.pivot = this.pivots.center;
     }
 
-    start() {
-        super.start();
-    }
-
-    update(scene) {
-        super.update(scene);
-        var mouse = scene.gameInstance.mouse;
-        var kbd = scene.gameInstance.keyboard;
+    update() {
+        var mouse = this.gameInstance.mouse;
+        var kbd = this.gameInstance.keyboard;
         if (mouse.leftDown) {
             if (mouse.x >= this.x && mouse.y >= this.y &&
                 mouse.x < (this.width + this.x) &&
@@ -32,10 +28,12 @@ class Ball extends Sprite {
             this._onTheMove = false;
         }
         if (mouse.wheelUp) {
-            this.scale += 0.1;
+            this.scaleWidth += 0.1;
+            this.scaleHeight += 0.1;
         }
         if (mouse.wheelDown) {
-            this.scale -= 0.1;
+            this.scaleWidth -= 0.1;
+            this.scaleHeight -= 0.1;
         }
 
         if (kbd.keyDown(kbd.keys.right)) {
