@@ -1,30 +1,43 @@
 "use strict";
 
-class Sprite {
+class Sprite extends Entity {
     constructor(gameInstance, src) {
-        this.gi = gameInstance;
-        this.src = src;
+        super(gameInstance);
+        this._src = src;
         this._image = null;
         this._imageReady = false;
-        this._loadImage();
     }
 
-    drawAt(x, y) {
-        this._gi.drawImage(this._image, x, y, this.width, this.height);
+    doStart() {
+        if (this._beforeStart()) {
+            this.start();
+            this._loadImage();
+            this._afterStart();
+        }
+    }
+
+    doUpdate() {
+        if(this._beforeUpdate()) {
+            this.update();
+            this._gi.drawImage(this._image, this.x, this.y, this.width,
+                this.height);
+            this._afterUpdate();
+        }
     }
 
     get src() { return this._src; }
+
     set src(value) {
         this._src = value;
         this._loadImage();
     }
 
     get width() {
-        return this.imageReady ? this._image.width : 0;
+        return this._imageReady ? this._image.width : this._width;
     }
 
     get height() {
-        return this._imageReady ? this._image.height : 0;
+        return this._imageReady ? this._image.height : this._height;
     }
 
     _loadImage() {

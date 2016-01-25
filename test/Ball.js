@@ -1,9 +1,8 @@
 "use strict";
 
-class Ball extends Entity {
+class Ball extends Sprite {
     constructor(gameInstance) {
-        super(gameInstance);
-        this.sprite = new Sprite("images/test_sprite.png");
+        super(gameInstance,  "images/test_sprite.png");
         this.onTheMove = false;
         this.x = 100;
         this.y = 100;
@@ -11,41 +10,41 @@ class Ball extends Entity {
     }
 
     update() {
-        var mouse = this.gameInstance.mouse;
-        var kbd = this.gameInstance.keyboard;
-        if (mouse.leftDown) {
-            if (mouse.x >= this.x && mouse.y >= this.y &&
-                mouse.x < (this.width + this.x) &&
-                mouse.y < (this.height + this.y)) {
+        if (this.mouse.leftDown) {
+            /*if (this.mouse.x >= this.x && this.mouse.y >= this.y &&
+                this.mouse.x < (this.width + this.x) &&
+                this.mouse.y < (this.height + this.y)) {
                 this._onTheMove = true;
             }
             if (this._onTheMove) {
-                this.x = mouse.x;
-                this.y = mouse.y;
-            }
+                this.x = this.mouse.x;
+                this.y = this.mouse.y;
+            }*/
+            this.x = this.mouse.x;
+            this.y = this.mouse.y;
         }
-        if (mouse.leftUp) {
+        if (this.mouse.leftUp) {
             this._onTheMove = false;
         }
-        if (mouse.wheelUp) {
+        if (this.mouse.wheelUp) {
             this.scaleWidth += 0.1;
             this.scaleHeight += 0.1;
         }
-        if (mouse.wheelDown) {
+        if (this.mouse.wheelDown) {
             this.scaleWidth -= 0.1;
             this.scaleHeight -= 0.1;
         }
 
-        if (kbd.keyDown(kbd.keys.right)) {
+        if (this.keyboard.keyDown(this.keyboard.keys.right)) {
             this.x += 10;
         }
-        if (kbd.keyDown(kbd.keys.down)) {
+        if (this.keyboard.keyDown(this.keyboard.keys.down)) {
             this.y += 10;
         }
-        if (kbd.keyDown(kbd.keys.left)) {
+        if (this.keyboard.keyDown(this.keyboard.keys.left)) {
             this.x -= 10;
         }
-        if (kbd.keyDown(kbd.keys.up)) {
+        if (this.keyboard.keyDown(this.keyboard.keys.up)) {
             this.y -= 10;
         }
     }
