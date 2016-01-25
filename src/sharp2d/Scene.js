@@ -11,15 +11,23 @@ class Scene extends Entity {
         this._entities.push(entity);
     }
 
-    start() {
-        this._entities.forEach((entity) => {
-            entity.doStart();
-        });
+    doStart() {
+        if (this._beforeStart()) {
+            this.start();
+            this._entities.forEach((entity) => {
+                entity.doStart();
+            });
+            this._afterStart();
+        }
     }
 
-    update() {
-        this._entities.forEach((entity) => {
-            entity.doUpdate();
-        });
+    doUpdate() {
+        if(this._beforeUpdate()) {
+            this.update();
+            this._entities.forEach((entity) => {
+                entity.doUpdate();
+            });
+            this._afterUpdate();
+        }
     }
 }

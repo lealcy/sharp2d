@@ -23,53 +23,22 @@ class Entity {
     }
 
     doStart() {
-        this.start();
+        if (this._beforeStart()) {
+            this.start();
+            this._afterStart();
+        }
     }
 
     doUpdate() {
-        if (this.enabled) {
-            this._gi.context.save();
-            this._gi.context.scale(this._scaleWidth, this._scaleHeight);
-            switch(this._pivot) {
-                case this.pivots.top:
-                    this._gi.context.translate(-(this.width / 2), 0);
-                    break;
-                case this.pivots.topRight:
-                    this._gi.context.translate(-this.width, 0);
-                    break;
-                case this.pivots.right:
-                    this._gi.context.translate(-this.width, -(this.height / 2));
-                    break;
-                case this.pivots.bottomRight:
-                    this._gi.context.translate(-this.width, -this.height);
-                    break;
-                case this.pivots.bottom:
-                    this._gi.context.translate(-(this.width / 2), -this.height);
-                    break;
-                case this.pivots.bottomLeft:
-                    this._gi.context.translate(0, -this.height);
-                    break;
-                case this.pivots.left:
-                    this._gi.context.translate(0, -(this.height / 2));
-                    break;
-                case this.pivots.topLeft:
-                    break;
-                case this.pivots.center:
-                    this._gi.context.translate(-(this.width / 2),
-                        -(this.height / 2));
-                    break;
-                default:
-                    console.log("Invalid pivot value.");
-                    break;
-            }
+        if (this._beforeUpdate()) {
             this.update();
-            this._gi.context.restore();
+            this._afterUpdate();
         }
     }
 
     scale(width, height) {
-        this._scaleWidth = width;
-        this._scaleHeight = height;
+        this.scaleWidth = width;
+        this.scaleHeight = height;
     }
 
     set x(value) {
@@ -134,6 +103,74 @@ class Entity {
 
     get gameInstance() {
         return this._gi;
+    }
+
+    get mouse() {
+        return this._gi.mouse;
+    }
+
+    get keyboard() {
+        return this._gi.keyboard;
+    }
+
+    get pivot() {
+        return this._pivot;
+    }
+
+    set pivot(value) {
+        this._pivot = value;
+    }
+
+    _beforeStart() {
+        return this.enabled;
+    }
+
+    _afterStart() {
+        // Do Nothing.
+    }
+
+    _beforeUpdate() {
+        if (!this.enabled) {
+            return false;
+        }
+        this._gi.context.save();
+        this._gi.context.scale(this._scaleWidth, this._scaleHeight);
+        switch(this._pivot) {
+            case this.pivots.top:
+                this._gi.context.translate(-(this.width / 2), 0);
+                break;
+            case this.pivots.topRight:
+                this._gi.context.translate(-this.width, 0);
+                break;
+            case this.pivots.right:
+                this._gi.context.translate(-this.width, -(this.height / 2));
+                break;
+            case this.pivots.bottomRight:
+                this._gi.context.translate(-this.width, -this.height);
+                break;
+            case this.pivots.bottom:
+                this._gi.context.translate(-(this.width / 2), -this.height);
+                break;
+            case this.pivots.bottomLeft:
+                this._gi.context.translate(0, -this.height);
+                break;
+            case this.pivots.left:
+                this._gi.context.translate(0, -(this.height / 2));
+                break;
+            case this.pivots.topLeft:
+                break;
+            case this.pivots.center:
+                this._gi.context.translate(-(this.width / 2),
+                    -(this.height / 2));
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
+    _afterUpdate() {
+        this._gi.context.restore();
     }
 }
 
