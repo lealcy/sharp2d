@@ -19,11 +19,18 @@ class Sharp2d {
         this._keyboard = new Keyboard(this._canvas);
         this._scene = new Scene(this);
         this._running = false;
-        this._updateInterval = 1000 / 60; // 60 fps.
-        this._requestAnimFrame = window.requestAnimationFrame ||
-            window.webkitRequestAnimationFrame ||
-            window.mozRequestAnimationFrame ||
-            ((callback) => { setTimeout(callback, this.updateInterval); });
+        this._updateInterval = 1000 / 60; // 60 fps. PC Master Race
+        if (window.requestAnimationFrame) {
+            this._requestAnimFrame = window.requestAnimationFrame;
+        } else if (window.webkitRequestAnimationFrame) {
+            this._requestAnimFrame = window.webkitRequestAnimationFrame;
+        } else if (window.mozRequestAnimationFrame) {
+            this._requestAnimFrame = window.mozRequestAnimationFrame;
+        } else {
+            this._requestAnimFrame = (callback) => {
+                setTimeout(callback, this._updateInterval);
+            };
+        }
         this._clearOnUpdate = true;
     }
 
