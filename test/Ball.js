@@ -10,18 +10,17 @@ class Ball extends Sprite {
     }
 
     update() {
+        if (this.mouseOver) {
+            console.log(this.mouse.x, this.mouse.y);
+        }
         if (this.mouse.leftDown) {
-            /*if (this.mouse.x >= this.x && this.mouse.y >= this.y &&
-                this.mouse.x < (this.width + this.x) &&
-                this.mouse.y < (this.height + this.y)) {
+            if (this.mouseOver) {
                 this._onTheMove = true;
             }
             if (this._onTheMove) {
                 this.x = this.mouse.x;
                 this.y = this.mouse.y;
-            }*/
-            this.x = this.mouse.x;
-            this.y = this.mouse.y;
+            }
         }
         if (this.mouse.leftUp) {
             this._onTheMove = false;

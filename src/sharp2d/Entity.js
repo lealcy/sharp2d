@@ -117,8 +117,79 @@ class Entity {
         return this._pivot;
     }
 
+    get pivotX() {
+        switch(this._pivot) {
+            case this.pivots.top:
+            case this.pivots.bottom:
+            case this.pivots.center:
+                return -(this.width / 2);
+                break;
+            case this.pivots.topRight:
+            case this.pivots.right:
+            case this.pivots.bottomRight:
+                return -this.width;
+                break;
+            case this.pivots.bottomLeft:
+            case this.pivots.left:
+            case this.pivots.topLeft:
+                return 0;
+                break;
+            default:
+                return 0;
+                break;
+        }
+    }
+
+    get pivotY() {
+        switch(this._pivot) {
+            case this.pivots.top:
+            case this.pivots.topRight:
+            case this.pivots.topLeft:
+                return 0;
+                break;
+            case this.pivots.right:
+            case this.pivots.left:
+            case this.pivots.center:
+                return -(this.height / 2);
+                break;
+            case this.pivots.bottomRight:
+            case this.pivots.bottom:
+            case this.pivots.bottomLeft:
+                return  -this.height;
+                break;
+            default:
+                return 0;
+                break;
+        }
+    }
+
     set pivot(value) {
         this._pivot = value;
+    }
+
+    get absoluteX() {
+        return (this.x + this.pivotX) * this.scaleWidth;
+    }
+
+    get absoluteY() {
+        return (this.y + this.pivotY) * this.scaleHeight;
+    }
+
+    get absoluteWidth() {
+        return this.width * this.scaleWidth;
+    }
+
+    get absoluteHeight() {
+        return this.height * this.scaleHeight;
+    }
+
+    get mouseOver() {
+        if (this.mouse.x >= this.absoluteX && this.mouse.y >= this.absoluteY &&
+            this.mouse.x < this.absoluteX + this.absoluteWidth &&
+            this.mouse.y < this.absoluteY + this.absoluteHeight) {
+            return true;
+        }
+        return false;
     }
 
     _beforeStart() {
@@ -135,37 +206,7 @@ class Entity {
         }
         this._gi.context.save();
         this._gi.context.scale(this._scaleWidth, this._scaleHeight);
-        switch(this._pivot) {
-            case this.pivots.top:
-                this._gi.context.translate(-(this.width / 2), 0);
-                break;
-            case this.pivots.topRight:
-                this._gi.context.translate(-this.width, 0);
-                break;
-            case this.pivots.right:
-                this._gi.context.translate(-this.width, -(this.height / 2));
-                break;
-            case this.pivots.bottomRight:
-                this._gi.context.translate(-this.width, -this.height);
-                break;
-            case this.pivots.bottom:
-                this._gi.context.translate(-(this.width / 2), -this.height);
-                break;
-            case this.pivots.bottomLeft:
-                this._gi.context.translate(0, -this.height);
-                break;
-            case this.pivots.left:
-                this._gi.context.translate(0, -(this.height / 2));
-                break;
-            case this.pivots.topLeft:
-                break;
-            case this.pivots.center:
-                this._gi.context.translate(-(this.width / 2),
-                    -(this.height / 2));
-                break;
-            default:
-                break;
-        }
+        this._gi.context.translate(this.pivotX, this.pivotY);
         return true;
     }
 
