@@ -1,26 +1,29 @@
 "use strict";
 
 class Sprite extends Entity {
-    constructor(gameInstance, src) {
-        super(gameInstance);
+    constructor(parent, src) {
+        super(parent);
+        this.debug("Sprite.constructor");
         this._src = src;
         this._image = null;
         this._imageReady = false;
     }
 
-    doStart() {
+    start() {
+        this.debug("Sprite.start");
         if (this._beforeStart()) {
-            this.start();
             this._loadImage();
+            this._start();
             this._afterStart();
         }
     }
 
-    doUpdate() {
-        if(this._beforeUpdate()) {
-            this.update();
-            this._gi.drawImage(this._image, this.x, this.y, this.width,
+    update() {
+        //this.debug("Sprite.update");
+        if (this._imageReady && this._beforeUpdate()) {
+            this.drawImage(this._image, this.x, this.y, this.width,
                 this.height);
+            this._update();
             this._afterUpdate();
         }
     }
@@ -41,13 +44,19 @@ class Sprite extends Entity {
     }
 
     _loadImage() {
+        console.log("Sprite._loadImage");
         this._imageReady = false;
         this._image = new Image();
-        this._image.onload = this._imageLoaded.bind(this);
-        this._image.src = this._src;
+        if (this._src) {
+            this._image.onload = this._imageLoaded.bind(this);
+            this._image.src = this._src;
+        }
     }
 
     _imageLoaded() {
+        console.log("Sprite._imageLoaded");
         this._imageReady = true;
+        this._width = this._image.width;
+        this._height = this._image.height;
     }
 }

@@ -1,35 +1,32 @@
 "use strict";
 
 class Ball extends Sprite {
-    start() {
+    _start() {
+        this.debug("Ball._start");
         this.onTheMove = false;
+        this.originX = 0;
+        this.originY = 0;
         this.x = 100;
         this.y = 100;
         this.pivot = this.pivots.center;
     }
 
-    update() {
-        if (this.mouseOver) {
-            if (this.mouse.leftDown) {
-                if (this.mouseOver) {
-                    this._onTheMove = true;
-                }
-                if (this._onTheMove) {
-                    this.x = this.mouse.x;
-                    this.y = this.mouse.y;
-                }
-            }
-            if (this.mouse.leftUp) {
-                this._onTheMove = false;
-            }
-            if (this.mouse.wheelUp) {
-                this.scaleWidth += 0.1;
-                this.scaleHeight += 0.1;
-            }
-            if (this.mouse.wheelDown) {
-                this.scaleWidth -= 0.1;
-                this.scaleHeight -= 0.1;
-            }
+    _update() {
+        if (this.mouse.leftDown && !this.onTheMove && this.mouseOver) {
+            this.originX = this.mouse.x - this.x;
+            this.originY = this.mouse.y - this.y;
+            this.mouseOriginX = this.mouse.x;
+            this.mouseOriginY = this.mouse.y;
+            this.onTheMove = true;
+        }
+
+        if (this.onTheMove) {
+            this.x = this.mouse.x - this.originX;
+            this.y = this.mouse.y - this.originY;
+        }
+
+        if (this.mouse.leftUp) {
+            this.onTheMove = false;
         }
 
         if (this.keyboard.keyDown(this.keyboard.keys.right)) {

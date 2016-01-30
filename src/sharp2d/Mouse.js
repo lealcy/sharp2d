@@ -20,6 +20,7 @@ class Mouse {
         this._dragStart = false;
         this._dragMove = false;
         this._dragEnd = false;
+        this._ignoreOutEvent = false;
     }
 
     start() {
@@ -46,14 +47,6 @@ class Mouse {
         }
     }
 
-    doStart() {
-        this.start();
-    }
-
-    doUpdate() {
-        this.update();
-    }
-
     get x() { return this._x; }
     get y() { return this._y; }
     get leftDown() { return this._buttonsDown.has(this.buttons.left); }
@@ -69,6 +62,14 @@ class Mouse {
     get wheelDown() { return this._wheelDown; }
     get out() { return this._out; }
     get contextMenu() { return this._context; }
+
+    get ignoreOutEvent() {
+        return this._ignoreOutEvent;
+    }
+
+    set ignoreOutEvent(value) {
+        this._ignoreOutEvent = value;
+    }
 
     _mouseDown(e) {
         var e = this._normalizeDOMMouseEvent(e);
@@ -122,9 +123,11 @@ class Mouse {
     }
 
     _mouseOut(e) {
-        this._out = true;
-        if (this._buttonsDown.size) {
-            this._mouseUp(e);
+        if (!this._ignoreOutEvent) {
+            this._out = true;
+            if (this._buttonsDown.size) {
+                this._mouseUp(e);
+            }
         }
     }
 

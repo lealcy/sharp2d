@@ -1,9 +1,13 @@
 "use strict";
 
-/* export */
 class Entity {
-    constructor(gameInstance) {
-        this._gi = gameInstance;
+    constructor(parent) {
+        this.debug("Entity.constructor");
+        if (parent) {
+            this._parent = parent;
+            this._parent.add(this);
+        }
+        this._children = [];
         this._x = 0;
         this._y = 0;
         this._width = 0;
@@ -12,33 +16,52 @@ class Entity {
         this._scaleWidth = 1.0;
         this._scaleHeight = 1.0;
         this._pivot = this.pivots.topLeft;
+        this._init();
     }
 
     start() {
-        // To be extended
-    }
-
-    update() {
-        // To be extended
-    }
-
-    doStart() {
+        this.debug("Entity.start");
         if (this._beforeStart()) {
-            this.start();
+            this._start();
             this._afterStart();
         }
     }
 
-    doUpdate() {
+    update() {
+        //this.debug("Entity.update")
         if (this._beforeUpdate()) {
-            this.update();
+            this._update();
             this._afterUpdate();
         }
     }
 
     scale(width, height) {
-        this.scaleWidth = width;
-        this.scaleHeight = height;
+        if (width >= 0 && height >= 0) {
+            this._scaleWidth = width;
+            this._scaleHeight = height;
+        }
+    }
+
+    saveContext() {
+        this.parent.saveContext();
+    }
+
+    restoreContext() {
+        this.parent.restoreContext();
+    }
+
+    add(child) {
+        this.debug("Entity.add");
+        this._children.push(child);
+    }
+
+    drawImage(image, x, y, width, height) {
+        // this.debug("Entity.drawImage");
+        this.parent.drawImage(...arguments);
+    }
+
+    debug(message) {
+        console.log(this.constructor.name, ...arguments);
     }
 
     set x(value) {
@@ -101,20 +124,28 @@ class Entity {
 
     get scaleHeight() { return this._scaleHeight; }
 
-    get gameInstance() {
-        return this._gi;
+    get parent() {
+        return this._parent;
+    }
+
+    get context() {
+        return this.parent.context;
     }
 
     get mouse() {
-        return this._gi.mouse;
+        return this.parent.mouse;
     }
 
     get keyboard() {
-        return this._gi.keyboard;
+        return this.parent.keyboard;
     }
 
     get pivot() {
         return this._pivot;
+    }
+
+    set pivot(value) {
+        this._pivot = value;
     }
 
     get pivotX() {
@@ -122,20 +153,20 @@ class Entity {
             case this.pivots.top:
             case this.pivots.bottom:
             case this.pivots.center:
-                return -(this.width / 2);
+                return this._x + (this._width / 2);
                 break;
             case this.pivots.topRight:
             case this.pivots.right:
             case this.pivots.bottomRight:
-                return -this.width;
+                return this._x + this._width;
                 break;
             case this.pivots.bottomLeft:
             case this.pivots.left:
             case this.pivots.topLeft:
-                return 0;
+                return this._x;
                 break;
             default:
-                return 0;
+                return this._x;
                 break;
         }
     }
@@ -145,51 +176,46 @@ class Entity {
             case this.pivots.top:
             case this.pivots.topRight:
             case this.pivots.topLeft:
-                return 0;
+                return this._y;
                 break;
             case this.pivots.right:
             case this.pivots.left:
             case this.pivots.center:
-                return -(this.height / 2);
+                return this._y + (this._height / 2);
                 break;
             case this.pivots.bottomRight:
             case this.pivots.bottom:
             case this.pivots.bottomLeft:
-                return  -this.height;
+                return  this._y + this._height;
                 break;
             default:
-                return 0;
+                return this._y;
                 break;
         }
-    }
-
-    set pivot(value) {
-        this._pivot = value;
-    }
-
-    get absoluteX() {
-        return (this.x + this.pivotX) * this.scaleWidth;
-    }
-
-    get absoluteY() {
-        return (this.y + this.pivotY) * this.scaleHeight;
-    }
-
-    get absoluteWidth() {
-        return this.width * this.scaleWidth;
-    }
-
-    get absoluteHeight() {
-        return this.height * this.scaleHeight;
     }
 
     get mouseOver() {
-        if (this.mouse.x >= this.absoluteX && this.mouse.y >= this.absoluteY &&
-            this.mouse.x < this.absoluteX + this.absoluteWidth &&
-            this.mouse.y < this.absoluteY + this.absoluteHeight) {
+        if (this.mouse.x >= this.x && this.mouse.y >= this._y &&
+            this.mouse.x < this.x + this._width &&
+            this.mouse._y < this.y + this._height) {
             return true;
         }
         return false;
+    }
+
+    _init() {
+        this.debug("Entity._init");
+        // To be extended
+    }
+
+    _start() {
+        this.debug("Entity._start");
+        // To be extended
+    }
+
+    _update() {
+
+        // To be extended
     }
 
     _beforeStart() {
@@ -197,21 +223,21 @@ class Entity {
     }
 
     _afterStart() {
-        // Do Nothing.
+        this._children.forEach(child => child.start());
     }
 
     _beforeUpdate() {
         if (!this.enabled) {
             return false;
         }
-        this._gi.context.save();
-        this._gi.context.scale(this._scaleWidth, this._scaleHeight);
-        this._gi.context.translate(this.pivotX, this.pivotY);
+        this.saveContext();
         return true;
     }
 
     _afterUpdate() {
-        this._gi.context.restore();
+        // this.debug("Entity._afterUpdate");
+        this._children.forEach(child => child.update());
+        this.restoreContext();
     }
 }
 

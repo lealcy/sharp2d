@@ -1,12 +1,9 @@
 "use strict";
 
-// import "Mouse.js";
-// import "Keyboard.js";
-// import "Scene.js";
-
-/* export */
-class Sharp2d {
+class Game extends Entity {
     constructor(canvasElement) {
+        super(null);
+        this.debug("Game.constructor");
         this._canvas = canvasElement;
 
         // fix some canvas caveats
@@ -17,9 +14,8 @@ class Sharp2d {
         this._context = this._canvas.getContext("2d");
         this._mouse = new Mouse(this._canvas);
         this._keyboard = new Keyboard(this._canvas);
-        this._scene = new Scene(this);
         this._running = false;
-        this._updateInterval = 1000 / 60; // 60 fps. PC Master Race
+        this._updateInterval = 1000 / 60; // 60 fps. Glorious PC Master Race.
         if (window.requestAnimationFrame) {
             this._requestAnimFrame = window.requestAnimationFrame;
         } else if (window.webkitRequestAnimationFrame) {
@@ -35,22 +31,24 @@ class Sharp2d {
     }
 
     start() {
+        this.debug("Game.start");
         this._running = true;
-        this._mouse.doStart();
-        this._keyboard.doStart();
-        this._scene.doStart();
+        this._mouse.start();
+        this._keyboard.start();
+        super.start();
         this.update();
     }
 
     update() {
+        // this.debug("Game.update");
         if (this._running) {
             this._requestAnimFrame.call(window, this.update.bind(this));
             if (this._clearOnUpdate) {
                 this.clear();
             }
-            this._scene.doUpdate();
-            this._mouse.doUpdate();
-            this._keyboard.doUpdate();
+            super.update();
+            this._mouse.update();
+            this._keyboard.update();
         }
     }
 
@@ -59,6 +57,7 @@ class Sharp2d {
     }
 
     drawImage(image, x, y, width, height) {
+        // this.debug("Game.drawImage");
         this._context.drawImage(image, x, y, width, height);
     }
 
@@ -66,8 +65,16 @@ class Sharp2d {
         return this._canvas.getContext("2d");
     }
 
+    saveContext() {
+        this._context.save();
+    }
+
+    restoreContext() {
+        this._context.restore();
+    }
+
+    get parent() { return this; }
     get running() { return this._running; }
-    get scene() { return this._scene; }
     get mouse() { return this._mouse; }
     get keyboard() { return this._keyboard; }
     get width() { return this._canvas.width; }
@@ -75,4 +82,5 @@ class Sharp2d {
     get canvas() { return this._canvas; }
     get context() { return this._context; }
     set clearOnUpdate(value) { this._clearOnUpdate = value; }
+
 }
