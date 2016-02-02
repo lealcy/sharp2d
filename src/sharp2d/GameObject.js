@@ -1,13 +1,13 @@
 "use strict";
 
-class Entity {
+class GameObject {
     constructor(parent) {
-        this.debug("Entity.constructor");
+        this._children = [];
+        this._parent = this;
         if (parent) {
             this._parent = parent;
             this._parent.add(this);
         }
-        this._children = [];
         this._x = 0;
         this._y = 0;
         this._width = 0;
@@ -16,19 +16,16 @@ class Entity {
         this._scaleWidth = 1.0;
         this._scaleHeight = 1.0;
         this._pivot = this.pivots.topLeft;
-        this._init();
     }
 
     start() {
-        this.debug("Entity.start");
         if (this._beforeStart()) {
             this._start();
             this._afterStart();
         }
-    }
+     }
 
     update() {
-        //this.debug("Entity.update")
         if (this._beforeUpdate()) {
             this._update();
             this._afterUpdate();
@@ -43,57 +40,71 @@ class Entity {
     }
 
     saveContext() {
-        this.parent.saveContext();
+        if (this._parent !== this) {
+            this._parent.saveContext();
+        } else {
+            this.error("saveContext() must be defined.");
+        }
     }
 
     restoreContext() {
-        this.parent.restoreContext();
+        if (this._parent !== this) {
+            this._parent.restoreContext();
+        } else {
+            this.error("restoreContext() must be defined.");
+        }
     }
 
     add(child) {
-        this.debug("Entity.add");
         this._children.push(child);
     }
 
     drawImage(image, x, y, width, height) {
-        // this.debug("Entity.drawImage");
-        this.parent.drawImage(...arguments);
+        if (this._parent !== this) {
+            this._parent.drawImage(...arguments);
+        } else {
+            this.error("drawImage() must be defined.");
+        }
     }
 
-    debug(message) {
-        console.log(this.constructor.name, ...arguments);
+    log(message) {
+        return console.log(this.constructor.name, "->", ...arguments);
     }
 
-    set x(value) {
-        this._x = value;
+    error(message) {
+        return console.error(this.constructor.name, "->", ...arguments);
     }
 
     get x() {
         return this._x;
     }
 
-    set y(value) {
-        this._y = value;
+    set x(value) {
+        this._x = value;
     }
 
     get y() {
         return this._y;
     }
 
-    set width(value) {
-        this._width = value;
+    set y(value) {
+        this._y = value;
     }
 
     get width() {
         return this._width;
     }
 
-    set height(value) {
-        this._height = value;
+    set width(value) {
+        this._width = value;
     }
 
     get height() {
         return this._height;
+    }
+
+    set height(value) {
+        this._height = value;
     }
 
     get enable() {
@@ -108,13 +119,19 @@ class Entity {
         return this._enabled;
     }
 
+    get scaleWidth() {
+        return this._scaleWidth;
+    }
+
     set scaleWidth(value) {
         if (value >= 0) {
             this._scaleWidth = value;
         }
     }
 
-    get scaleWidth() { return this._scaleWidth; }
+    get scaleHeight() {
+        return this._scaleHeight;
+    }
 
     set scaleHeight(value) {
         if (value >= 0) {
@@ -122,22 +139,32 @@ class Entity {
         }
     }
 
-    get scaleHeight() { return this._scaleHeight; }
-
     get parent() {
         return this._parent;
     }
 
     get context() {
-        return this.parent.context;
+        if (this._parent !== this) {
+            return this._parent.context;
+        }
+        this.error("context property must be defined.");
+        return false;
     }
 
     get mouse() {
-        return this.parent.mouse;
+        if (this._parent !== this) {
+            return this._parent.mouse;
+        }
+        this.error("mouse property must be defined.");
+        return false;
     }
 
     get keyboard() {
-        return this.parent.keyboard;
+        if (this._parent !== this) {
+            return this._parent.keyboard;
+        }
+        this.error("keyboard property must be defined.");
+        return false;
     }
 
     get pivot() {
@@ -195,21 +222,15 @@ class Entity {
     }
 
     get mouseOver() {
-        if (this.mouse.x >= this.x && this.mouse.y >= this._y &&
-            this.mouse.x < this.x + this._width &&
-            this.mouse._y < this.y + this._height) {
-            return true;
-        }
-        return false;
-    }
-
-    _init() {
-        this.debug("Entity._init");
-        // To be extended
+            if (this.mouse.x >= this.x && this.mouse.y >= this._y &&
+                this.mouse.x < this.x + this._width &&
+                this.mouse._y < this.y + this._height) {
+                return true;
+            }
+            return false;
     }
 
     _start() {
-        this.debug("Entity._start");
         // To be extended
     }
 
@@ -235,13 +256,12 @@ class Entity {
     }
 
     _afterUpdate() {
-        // this.debug("Entity._afterUpdate");
         this._children.forEach(child => child.update());
         this.restoreContext();
     }
 }
 
-Entity.prototype.pivots = {
+GameObject.prototype.pivots = {
     center: Symbol("center"),
     top: Symbol("top"),
     topRight: Symbol("topRight"),
