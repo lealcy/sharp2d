@@ -16,6 +16,7 @@ class GameObject {
         this._scaleWidth = 1.0;
         this._scaleHeight = 1.0;
         this._pivot = this.pivots.topLeft;
+        this._transform = new Transform();
     }
 
     start() {
@@ -77,16 +78,16 @@ class GameObject {
 
     clone() {
         return Object.create(this);
-        //this.error("clone() must be defined.");
     }
 
     move(x, y) {
-        this._x = x;
-        this._y = y;
+        this.x = x;
+        this.y = y;
     }
 
     get x() {
-        return this._x;
+        return (this.parent === this ? this._x : this._x + this.parent.x) +
+            this.pivotX;
     }
 
     set x(value) {
@@ -94,7 +95,8 @@ class GameObject {
     }
 
     get y() {
-        return this._y;
+        return (this.parent === this ? this._y : this._y + this.parent.y) +
+            this.pivotY;
     }
 
     set y(value) {
@@ -190,20 +192,20 @@ class GameObject {
             case this.pivots.top:
             case this.pivots.bottom:
             case this.pivots.center:
-                return this._x + (this._width / 2);
+                return -(this._width / 2);
                 break;
             case this.pivots.topRight:
             case this.pivots.right:
             case this.pivots.bottomRight:
-                return this._x + this._width;
+                return -this._width;
                 break;
             case this.pivots.bottomLeft:
             case this.pivots.left:
             case this.pivots.topLeft:
-                return this._x;
+                return 0;
                 break;
             default:
-                return this._x;
+                return 0;
                 break;
         }
     }
@@ -213,20 +215,20 @@ class GameObject {
             case this.pivots.top:
             case this.pivots.topRight:
             case this.pivots.topLeft:
-                return this._y;
+                return 0;
                 break;
             case this.pivots.right:
             case this.pivots.left:
             case this.pivots.center:
-                return this._y + (this._height / 2);
+                return -(this._height / 2);
                 break;
             case this.pivots.bottomRight:
             case this.pivots.bottom:
             case this.pivots.bottomLeft:
-                return  this._y + this._height;
+                return -this._height;
                 break;
             default:
-                return this._y;
+                return 0;
                 break;
         }
     }

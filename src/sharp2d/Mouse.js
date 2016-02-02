@@ -12,9 +12,10 @@ class Mouse {
         this._move = false;
         this._out = false;
         this._context = false;
-        this._buttonsDown = new Set();
-        this._buttonsUp = new Set();
-        this._buttonsClick = new Set();
+        this._buttonsDown = [false, false, false];
+        this._buttonsUp = [false, false, false];
+        this._buttonsClick = [false, false, false];
+        this._dragButton = this.buttons.none;
         this._wheelUp = false;
         this._wheelDown = false;
         this._dragStart = false;
@@ -33,14 +34,15 @@ class Mouse {
     }
 
     update() {
-        this._buttonsUp.clear();
-        this._buttonsClick.clear();
+        this._buttonsUp = [false, false, false];
+        this._buttonsClick = [false, false, false];
         this._move = false;
         this._out = false;
         this._context = false;
         this._wheelUp = false;
         this._wheelDown = false;
         if (this._dragEnd) {
+            this._dragButton = this.buttons.none;
             this._dragStart = false;
             this._dragMove = false;
             this._dragEnd = false;
@@ -49,15 +51,15 @@ class Mouse {
 
     get x() { return this._x; }
     get y() { return this._y; }
-    get leftDown() { return this._buttonsDown.has(this.buttons.left); }
-    get centerDown() { return this._buttonsDown.has(this.buttons.center); }
-    get rightDown() { return this._buttonsDown.has(this.buttons.right); }
-    get leftUp() { return this._buttonsUp.has(this.buttons.left); }
-    get centerUp() { return this._buttonsUp.has(this.buttons.center); }
-    get rightUp() { return this._buttonsUp.has(this.buttons.right); }
-    get leftClick() { return this._buttonsClick.has(this.buttons.left); }
-    get centerClick() { return this._buttonsClick.has(this.buttons.center); }
-    get rightClick() { return this._buttonsClick.has(this.buttons.right); }
+    get leftDown() { return this._buttonsDown[this.buttons.left]; }
+    get centerDown() { return this._buttonsDown[this.buttons.center]; }
+    get rightDown() { return this._buttonsDown[this.buttons.right]; }
+    get leftUp() { return this._buttonsUp[this.buttons.left]; }
+    get centerUp() { return this._buttonsUp[this.buttons.center]; }
+    get rightUp() { return this._buttonsUp[this.buttons.right]; }
+    get leftClick() { return this._buttonsClick[this.buttons.left]; }
+    get centerClick() { return this._buttonsClick[this.buttons.center]; }
+    get rightClick() { return this._buttonsClick[this.buttons.right]; }
     get wheelUp() { return this._wheelUp; }
     get wheelDown() { return this._wheelDown; }
     get out() { return this._out; }
@@ -73,8 +75,9 @@ class Mouse {
 
     _mouseDown(e) {
         var e = this._normalizeDOMMouseEvent(e);
-        this._buttonsDown.add(e.button);
+        this._buttonsDown[e.button] = true;
         this._dragStart = e;
+        this._dragButton = e.button;
         this._dragMove = false;
         this._dragEnd = false;
         return false;
@@ -82,14 +85,16 @@ class Mouse {
 
     _mouseUp(e) {
         var e = this._normalizeDOMMouseEvent(e);
-        this._buttonsDown.delete(e.button);
-        this._buttonsUp.add(e.button);
-        if (this._dragStart && this._dragMove) {
-            this._dragEnd = e;
-        } else {
-            // Mouse didn't move
-            this._buttonsClick.add(e.button);
-            this._dragStart = false;
+        this._buttonsDown[e.button] = false;
+        this._buttonsUp[e.button] = true;
+        if (this._dragButton == e.button) {
+            if (this._dragStart && this._dragMove) {
+                this._dragEnd = e;
+            } else {
+                // Mouse didn't move
+                this._buttonsClick[e.button] = true;
+                this._dragStart = false;
+            }
         }
         return false;
     }
@@ -99,12 +104,10 @@ class Mouse {
         this._x = e.x;
         this._y = e.y;
         this._move = true;
-        if (this._dragStart) {
-            if (this._dragMove) {
-                this._dragMove = e;
-            } else if (this._dragStart.x != e.x && this._dragStart.y != e.y) {
-                this._dragMove = e;
-            }
+        if (this._dragStart && this._dragButton == e.button &&
+            (this._dragMove || (this._dragStart.x != e.x &&
+                this._dragStart.y != e.y))) {
+            this._dragMove = e;
         }
         return false;
     }
@@ -123,9 +126,11 @@ class Mouse {
     }
 
     _mouseOut(e) {
+        console.log("mouseout");
         if (!this._ignoreOutEvent) {
             this._out = true;
-            if (this._buttonsDown.size) {
+            if (!this._buttonsDown.every(value => value == false)) {
+                console.log("mouseup on mouseout");
                 this._mouseUp(e);
             }
         }
