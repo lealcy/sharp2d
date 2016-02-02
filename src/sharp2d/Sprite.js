@@ -26,6 +26,16 @@ class Sprite extends GameObject {
         }
     }
 
+    draw(x, y, width, height) {
+        if (this._imageReady) {
+            x = typeof x === "undefined" ? this.x : x;
+            y = typeof y === "undefined" ? this.y : y;
+            width = typeof width === "undefined" ? this.width : width;
+            height = typeof height === "undefined" ? this.height : height;
+            this.drawImage(this._image, x, y, width, height);
+        }
+    }
+
     get src() { return this._src; }
 
     set src(value) {
