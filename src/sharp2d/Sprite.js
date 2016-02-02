@@ -1,16 +1,14 @@
 "use strict";
 
-class Sprite extends Entity {
+class Sprite extends GameObject {
     constructor(parent, src) {
         super(parent);
-        this.debug("Sprite.constructor");
         this._src = src;
         this._image = null;
         this._imageReady = false;
     }
 
     start() {
-        this.debug("Sprite.start");
         if (this._beforeStart()) {
             this._loadImage();
             this._start();
@@ -39,12 +37,19 @@ class Sprite extends Entity {
         return this._imageReady ? this._image.width : this._width;
     }
 
+    set width(value) {
+        this.error("width is a read only property.");
+    }
+
     get height() {
         return this._imageReady ? this._image.height : this._height;
     }
 
+    set height(value) {
+        this.error("height is a read only property.");
+    }
+
     _loadImage() {
-        console.log("Sprite._loadImage");
         this._imageReady = false;
         this._image = new Image();
         if (this._src) {
@@ -54,7 +59,6 @@ class Sprite extends Entity {
     }
 
     _imageLoaded() {
-        console.log("Sprite._imageLoaded");
         this._imageReady = true;
         this._width = this._image.width;
         this._height = this._image.height;
