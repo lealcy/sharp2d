@@ -1,10 +1,8 @@
 "use strict";
 
 class BallGame extends Game {
-
-    _init() {
-        this.debug("BallGame._init");
+    constructor(canvasElement) {
+        super(canvasElement);
         this.ball = new Ball(this, "images/Soccer_Ball.png");
     }
-
 }

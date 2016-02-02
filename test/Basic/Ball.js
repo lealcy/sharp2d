@@ -2,7 +2,6 @@
 
 class Ball extends Sprite {
     _start() {
-        this.debug("Ball._start");
         this.onTheMove = false;
         this.originX = 0;
         this.originY = 0;
