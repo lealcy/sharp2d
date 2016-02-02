@@ -75,6 +75,16 @@ class GameObject {
         return console.error(this.constructor.name, "->", ...arguments);
     }
 
+    clone() {
+        return Object.create(this);
+        //this.error("clone() must be defined.");
+    }
+
+    move(x, y) {
+        this._x = x;
+        this._y = y;
+    }
+
     get x() {
         return this._x;
     }
