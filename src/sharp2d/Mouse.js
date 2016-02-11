@@ -1,11 +1,11 @@
 "use strict";
 
-/* export */
-class Mouse {
+class Mouse extends BaseObject {
 
     // TODO: Diferentiate drag events by mouse button
 
-    constructor(canvasElement) {
+    constructor(name, canvasElement) {
+        super(name);
         this._canvas = canvasElement;
         this._x = 0;
         this._y = 0;

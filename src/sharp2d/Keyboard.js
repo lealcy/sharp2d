@@ -1,8 +1,8 @@
 "use strict";
 
-/* export */
-class Keyboard {
-    constructor(canvasElement) {
+class Keyboard  extends BaseObject {
+    constructor(name, canvasElement) {
+        super(name);
         this._canvas = canvasElement;
         this._keyDownList = new Set();
         this._keyUpList = new Set();
