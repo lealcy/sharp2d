@@ -9,19 +9,19 @@ class Component extends BaseObject {
 
     }
 
-    beforeStart(game, gameObject) {
+    beforeStart(game, entity) {
         // to be extended
     }
 
-    afterStart(game, gameObject) {
+    afterStart(game, entity) {
         // to be extended
     }
 
-    beforeUpdate(game, gameObject) {
+    beforeUpdate(game, entity) {
         // to be extended
     }
 
-    afterUpdate(game, gameObject) {
+    afterUpdate(game, entity) {
         // to be extended
     }
 }

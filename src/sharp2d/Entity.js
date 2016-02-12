@@ -1,6 +1,6 @@
 "use strict";
 
-class GameObject extends BaseObject {
+class Entity extends BaseObject {
     constructor(name) {
         super(name);
         this._components = [];
