@@ -24,6 +24,10 @@ class ImageSource extends BaseObject {
         return this._image.height;
     }
 
+    get image() {
+        return this._image;
+    }
+
     _loadImage() {
         this._imageReady = false;
         if (this._src) {
