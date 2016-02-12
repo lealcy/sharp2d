@@ -4,7 +4,7 @@ class BaseObject {
     constructor(name) {
         this._name = name || this.constructor.name;
         this._enabled = true;
-        this.objectList.push(this);
+        this._objectList.push(this);
     }
 
     destroy(name) {
@@ -19,7 +19,7 @@ class BaseObject {
     }
 
     findByName(name) {
-        return this.objectList.find(element => element.name === name);
+        return this._objectList.find(element => element.name === name);
     }
 
     log() {
@@ -38,15 +38,14 @@ class BaseObject {
     }
 
     callEvent(eventName, ...args) {
-        if (this._enabled) {
+        if (this._enabled && eventName in this) {
             var before = "_before" + this._ucFirst(eventName);
             var after = "_after" + this._ucFirst(eventName);
-            if(before in this)) {
-                if(this[before](...args)) {
-                    this[eventName](...args);
-                    if(after in this) {
-                        this[after](...args);
-                    }
+            if(before in this && this[before](...args)) {
+                this[eventName](...args);
+                if(after in this) {
+                    this[after](...args);
+                }
             } else {
                 this[eventName](...args);
                 if(after in this) {
@@ -77,4 +76,4 @@ class BaseObject {
     }
 }
 
-BaseObject.prototype.objectList = [];
+BaseObject.prototype._objectList = [];
