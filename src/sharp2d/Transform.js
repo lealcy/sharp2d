@@ -13,12 +13,12 @@ class Transform extends Component {
         this._pivot = this.pivots.topLeft;
     }
 
-    beforeUpdate(game, gameObject) {
-        gameObject.drawSurface.saveContext();
+    beforeUpdate(game, entity) {
+        game.drawSurface.saveContext();
     }
 
-    afterUpdate(game, gameObject) {
-        gameObject.drawSurface.restoreContext();
+    afterUpdate(game, entity) {
+        game.drawSurface.restoreContext();
     }
 
     scale(width, height) {
