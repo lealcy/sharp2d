@@ -4,19 +4,17 @@ class Composition extends BaseObject {
     constructor(name) {
         super(name);
         this._children = [];
-        this._x = 0;
-        this._y = 0;
     }
 
     start(game) {
         if (this._enabled) {
-            this._children.forEach(child => child.callEvent("start", game);
+            this._children.forEach(child => child.callEvent("start");
         }
     }
 
     update(game) {
         if (this._enabled) {
-            this._children.forEach(child => child.callEvent("update", game);
+            this._children.forEach(child => child.callEvent("update");
         }
     }
 

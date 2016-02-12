@@ -59,6 +59,10 @@ class BaseObject {
         return this._name;
     }
 
+    get game() {
+        return this._gameInstance;
+    }
+
     get enable() {
         return this._enabled = true;
     }
@@ -77,3 +81,4 @@ class BaseObject {
 }
 
 BaseObject.prototype._objectList = [];
+BaseObject.prototype._gameInstance = null;

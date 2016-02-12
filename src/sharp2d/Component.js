@@ -1,27 +1,34 @@
 "use strict";
 
 class Component extends BaseObject {
-    constructor(name) {
+    constructor(name, entity) {
         super(name);
         if (!name) {
             this.error("All components must have names.");
         }
-
+        if (!entity) {
+            this.error("All components must be attached to an entity.");
+        }
+        this._entity = entity;
     }
 
-    beforeStart(game, entity) {
+    get entity() {
+        return this._entity;
+    }
+
+    beforeStart() {
         // to be extended
     }
 
-    afterStart(game, entity) {
+    afterStart() {
         // to be extended
     }
 
-    beforeUpdate(game, entity) {
+    beforeUpdate() {
         // to be extended
     }
 
-    afterUpdate(game, entity) {
+    afterUpdate() {
         // to be extended
     }
 }

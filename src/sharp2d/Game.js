@@ -3,6 +3,7 @@
 class Game extends BaseObject {
     constructor(name, canvasElement) {
         super(name);
+        this._gameInstance = this;
         this._drawSurface = new CanvasDrawSurface(canvasElement);
         this._mouse = new Mouse("defaultMouse", canvasElement);
         this._keyboard = new Keyboard("defaultKeyboard", canvasElement);
@@ -28,7 +29,7 @@ class Game extends BaseObject {
         this._mouse.start();
         this._keyboard.start();
         this._started = true;
-        this._composition.callEvent("start", this);
+        this._composition.callEvent("start");
         this._update();
     }
 
@@ -45,7 +46,7 @@ class Game extends BaseObject {
     }
 
     get drawSurface() {
-        return this.drawSurface;
+        return this._drawSurface;
     }
 
     get composition() {
@@ -55,7 +56,7 @@ class Game extends BaseObject {
     set composition(value) {
         this._composition = value;
         if (this._started) {
-            this._composition.callEvent("start", this);
+            this._composition.callEvent("start");
         }
     }
 
@@ -69,7 +70,7 @@ class Game extends BaseObject {
             if (this._clearOnUpdate) {
                 this._drawSurface.clear();
             }
-            this._composition.callEvent("update", this);
+            this._composition.callEvent("update");
             this._mouse.update();
             this._keyboard.update();
         }

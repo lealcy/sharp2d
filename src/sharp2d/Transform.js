@@ -1,24 +1,31 @@
 "use strict";
 
 class Transform extends Component {
-    constructor(name) {
-        super(name);
+    constructor(name, entity) {
+        super(name, entity);
+        this.defaults();
+    }
+
+    beforeUpdate() {
+        this.game.drawSurface.saveContext();
+        this.game.drawSurface.transform(this._scaleWidth, this._skewHorizontal,
+            this._skewVertical, this._scaleHeight, this._translateX,
+            this._translateY);
+        this.game.rotate(this._rotateAngle * Math.PI / 180);
+    }
+
+    afterUpdate() {
+        this.game.drawSurface.restoreContext();
+    }
+
+    defaults() {
         this._scaleWidth = 1.0;
         this._scaleHeight = 1.0;
         this._rotateAngle = 0.0;
-        this._skewVertical = 0.0;
         this._skewHorizontal = 0.0;
+        this._skewVertical = 0.0;
         this._translateX = 0;
         this._translateY = 0;
-        this._pivot = this.pivots.topLeft;
-    }
-
-    beforeUpdate(game, entity) {
-        game.drawSurface.saveContext();
-    }
-
-    afterUpdate(game, entity) {
-        game.drawSurface.restoreContext();
     }
 
     scale(width, height) {
@@ -26,6 +33,16 @@ class Transform extends Component {
             this._scaleWidth = width;
             this._scaleHeight = height;
         }
+    }
+
+    skew(horizontal, vertical) {
+        this._skewHorizontal = horizontal;
+        this._skewVertical = vertical;
+    }
+
+    translate(x, y) {
+        this._translateX = x;
+        this._translateY = y;
     }
 
     get scaleWidth() {
@@ -48,69 +65,11 @@ class Transform extends Component {
         }
     }
 
-    get pivot() {
-        return this._pivot;
+    get rotate() {
+        return this._rotateAngle;
     }
 
-    set pivot(value) {
-        this._pivot = value;
-    }
-
-    get pivotX() {
-        switch(this._pivot) {
-            case this.pivots.top:
-            case this.pivots.bottom:
-            case this.pivots.center:
-                return -(this._width / 2);
-                break;
-            case this.pivots.topRight:
-            case this.pivots.right:
-            case this.pivots.bottomRight:
-                return -this._width;
-                break;
-            case this.pivots.bottomLeft:
-            case this.pivots.left:
-            case this.pivots.topLeft:
-                return 0;
-                break;
-            default:
-                return 0;
-                break;
-        }
-    }
-
-    get pivotY() {
-        switch(this._pivot) {
-            case this.pivots.top:
-            case this.pivots.topRight:
-            case this.pivots.topLeft:
-                return 0;
-                break;
-            case this.pivots.right:
-            case this.pivots.left:
-            case this.pivots.center:
-                return -(this._height / 2);
-                break;
-            case this.pivots.bottomRight:
-            case this.pivots.bottom:
-            case this.pivots.bottomLeft:
-                return -this._height;
-                break;
-            default:
-                return 0;
-                break;
-        }
+    set rotate(angle) {
+        this._rotateAngle = angle;
     }
 }
-
-Transform.prototype.pivots = {
-    center: Symbol("center"),
-    top: Symbol("top"),
-    topRight: Symbol("topRight"),
-    right: Symbol("right"),
-    bottomRight: Symbol("bottomRight"),
-    bottom: Symbol("bottom"),
-    bottomLeft: Symbol("bottomLeft"),
-    left: Symbol("left"),
-    topLeft: Symbol("topLeft"),
-};

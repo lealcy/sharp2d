@@ -39,6 +39,10 @@ class CanvasDrawSurface extends DrawSurface {
         this._context.restore();
     }
 
+    translate(x, y) {
+        this._context.translate(x, y);
+    }
+
     set width(value) {
         super.width = this._canvas.width = value;
     }

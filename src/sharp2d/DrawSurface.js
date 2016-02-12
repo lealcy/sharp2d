@@ -31,6 +31,10 @@ class DrawSurface extends BaseObject {
         // Restores the transformation matrix to before the saveContext().
     }
 
+    translate(x, y) {
+        // Moves the coordinate system by the x,y offset.
+    }
+
     get width() {
         return this._width;
     }
