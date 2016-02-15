@@ -23,13 +23,17 @@ class BaseObject {
     }
 
     log() {
-        console.log(this._name, "->", ...arguments);
+        if (this.debug) {
+            console.log(this._name, "->", ...arguments);
+        }
     }
 
     error() {
         var message = Array.prototype.slice.call(arguments, 1).join(" ");
         var error = this._name + "->" + message;
-        console.log(error);
+        if (this.debug) {
+            console.log(error);
+        }
         throw error;
     }
 
@@ -82,3 +86,4 @@ class BaseObject {
 
 BaseObject.prototype._objectList = [];
 BaseObject.prototype._gameInstance = null;
+BaseObject.prototype.debug = false;
