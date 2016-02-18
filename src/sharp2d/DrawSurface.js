@@ -11,6 +11,14 @@ class DrawSurface extends BaseObject {
         // Clears the draw surface.
     }
 
+    transform() {
+
+    }
+
+    rotate() {
+        
+    }
+
     drawImage(imageSource, x, y) {
         // Draws the image keeping its aspect ratio.
     }
