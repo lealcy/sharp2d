@@ -1,7 +1,7 @@
 "use strict";
 
 class CanvasDrawSurface extends DrawSurface {
-    constructor(name, CanvasElement) {
+    constructor(name, canvasElement) {
         super(name);
         this._canvas = canvasElement;
 
@@ -19,8 +19,17 @@ class CanvasDrawSurface extends DrawSurface {
         this._context.clearRect(0, 0, this._width, this._height);
     }
 
-    drawImage(image, x, y) {
-        this._context.drawImage(...arguments);
+    transform() {
+        this._context.transform(...arguments);
+    }
+
+    rotate() {
+        this._context.rotate(...arguments);
+    }
+
+    drawImage(imageSource, x, y) {
+        //console.log("drawImage");
+        this._context.drawImage(imageSource.image, x, y);
     }
 
     drawImageResize(imageSource, x, y, width, height) {
