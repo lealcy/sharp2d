@@ -7,17 +7,6 @@ class BaseObject {
         this._objectList.push(this);
     }
 
-    destroy(name) {
-        if (!name) {
-            delete this;
-        } else {
-            var obj = this.findByName(name);
-            if (obj) {
-                delete obj;
-            }
-        }
-    }
-
     findByName(name) {
         return this._objectList.find(element => element.name === name);
     }
@@ -29,12 +18,12 @@ class BaseObject {
     }
 
     error() {
-        var message = Array.prototype.slice.call(arguments, 1).join(" ");
-        var error = this._name + "->" + message;
+        var message = Array.prototype.slice.call(arguments).join(" ");
+        var error = this._name + ": " + message;
         if (this.debug) {
             console.log(error);
         }
-        throw error;
+        throw new Error(error);
     }
 
     clone() {
@@ -64,7 +53,7 @@ class BaseObject {
     }
 
     get game() {
-        return this._gameInstance;
+        return BaseObject.prototype._gameInstance;
     }
 
     get enable() {
