@@ -6,9 +6,6 @@ class Component extends BaseObject {
         if (!name) {
             this.error("All components must have names.");
         }
-        if (!entity) {
-            this.error("All components must be attached to an entity.");
-        }
         this._entity = entity;
     }
 
@@ -16,19 +13,9 @@ class Component extends BaseObject {
         return this._entity;
     }
 
-    beforeStart() {
-        // to be extended
-    }
-
-    afterStart() {
-        // to be extended
-    }
-
-    beforeUpdate() {
-        // to be extended
-    }
-
-    afterUpdate() {
-        // to be extended
+    set entity(value) {
+        if (!this._entity) {
+            this._entity = value;
+        }
     }
 }
