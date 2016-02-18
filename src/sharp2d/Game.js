@@ -1,15 +1,15 @@
 "use strict";
 
 class Game extends BaseObject {
-    constructor(name, canvasElement) {
-        super(name);
-        this._gameInstance = this;
-        this._drawSurface = new CanvasDrawSurface(canvasElement);
+    constructor(canvasElement) {
+        super("Game");
+        BaseObject.prototype._gameInstance = this;
+        this._drawSurface = new CanvasDrawSurface("defaultCanvas", canvasElement);
         this._mouse = new Mouse("defaultMouse", canvasElement);
         this._keyboard = new Keyboard("defaultKeyboard", canvasElement);
         this._updateInterval = 1000 / 60; // 60 fps. Glorious PC Master Race.
         this._clearOnUpdate = true;
-        this._composition = new Composition("defaultComposition");
+        this._world = new Entity("defaultComposition");
         this._started = false;
 
         if (window.requestAnimationFrame) {
@@ -29,7 +29,7 @@ class Game extends BaseObject {
         this._mouse.start();
         this._keyboard.start();
         this._started = true;
-        this._composition.callEvent("start");
+        this._world.callEvent("start");
         this._update();
     }
 
@@ -49,14 +49,14 @@ class Game extends BaseObject {
         return this._drawSurface;
     }
 
-    get composition() {
-        return this._composition;
+    get world() {
+        return this._world;
     }
 
-    set composition(value) {
-        this._composition = value;
-        if (this._started) {
-            this._composition.callEvent("start");
+    set world(value) {
+        this._world = value;
+        if (this._world) {
+            this._world.callEvent("start");
         }
     }
 
@@ -65,12 +65,12 @@ class Game extends BaseObject {
     }
 
     _update() {
-        if (this._started) {
+        if (this._enabled && this._started) {
             this._requestAnimFrame.call(window, this._update.bind(this));
             if (this._clearOnUpdate) {
                 this._drawSurface.clear();
             }
-            this._composition.callEvent("update");
+            this._world.callEvent("update");
             this._mouse.update();
             this._keyboard.update();
         }
