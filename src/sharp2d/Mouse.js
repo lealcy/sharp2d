@@ -126,11 +126,9 @@ class Mouse extends BaseObject {
     }
 
     _mouseOut(e) {
-        console.log("mouseout");
         if (!this._ignoreOutEvent) {
             this._out = true;
             if (!this._buttonsDown.every(value => value == false)) {
-                console.log("mouseup on mouseout");
                 this._mouseUp(e);
             }
         }
