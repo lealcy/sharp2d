@@ -5,6 +5,7 @@ class ImageSource extends BaseObject {
         super(name);
         this._src = src;
         this._image = new Image();
+        this._image.onerror = this.error.bind(this);
         this._imageReady = false;
         this._loadImage();
     }
