@@ -38,8 +38,8 @@ class BaseObject {
 
     callEventEx(eventName, ...args) {
         if (this._enabled && eventName in this) {
-            var before = "_before" + this._ucFirst(eventName);
-            var after = "_after" + this._ucFirst(eventName);
+            var before = "before" + this._ucFirst(eventName);
+            var after = "after" + this._ucFirst(eventName);
             if(before in this && this[before](...args)) {
                 this[eventName](...args);
                 if(after in this) {
