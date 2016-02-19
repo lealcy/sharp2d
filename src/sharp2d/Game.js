@@ -30,7 +30,7 @@ class Game extends BaseObject {
             this._started = true;
             this._mouse.start();
             this._keyboard.start();
-            this._world.callEvent("start");
+            this._world.callEventEx("start");
         }
         this.enable;
     }
@@ -63,7 +63,7 @@ class Game extends BaseObject {
     set world(value) {
         this._world = value;
         if (this._world) {
-            this._world.callEvent("start");
+            this._world.callEventEx("start");
         }
     }
 
@@ -77,7 +77,7 @@ class Game extends BaseObject {
             if (this._clearOnUpdate) {
                 this._drawSurface.clear();
             }
-            this._world.callEvent("animationFrame");
+            this._world.callEventEx("animationFrame");
             this._mouse.update();
             this._keyboard.update();
         }
