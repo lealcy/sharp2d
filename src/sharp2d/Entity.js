@@ -8,6 +8,23 @@ class Entity extends BaseObject {
         this._transform = new Transform(this._name + ".transform", this);
         this._transform.entity = this;
     }
+    
+    animationFrame() {
+        this._transform.callEvent("beforeUpdate", ...args);
+        this._components.forEach(component => component.callEvent("beforeUpdate", ...args));
+        this.callEvent("beforeUpdate", ...args);
+        this._children.forEach(child => child.callEvent("beforeUpdate", ...args));
+        
+        this._transform.callEvent("update", ...args);
+        this._components.forEach(component => component.callEvent("update", ...args));
+        this.callEvent("update", ...args);
+        this._children.forEach(child => child.callEvent("update", ...args));
+
+        this._children.forEach(child => child.callEvent("afterUpdate", ...args));
+        this.callEvent("afterUpdate", ...args);
+        this._components.forEach(component => component.callEvent("afterUpdate", ...args));
+        this._transform.callEvent("afterUpdate", ...args);
+    }
 
     start() {
         // To be extended.
@@ -26,18 +43,7 @@ class Entity extends BaseObject {
     addEntity(child) {
         this._children.push(child);
     }
-
-    callEvent() {
-        if (this._enabled) {
-            this._transform.callEvent(...arguments);
-            this._components.forEach(
-                component => component.callEvent(...arguments)
-            );
-            this._children.forEach(child => child.callEvent(...arguments));
-            super.callEvent(...arguments);
-        }
-    }
-
+    
     get transform() {
         return this._transform;
     }
