@@ -15,7 +15,7 @@ class Mouse extends BaseObject {
         this._buttonsDown = [false, false, false];
         this._buttonsUp = [false, false, false];
         this._buttonsClick = [false, false, false];
-        this._dragButton = this.buttons.none;
+        this._dragButton = Mouse.buttons.none;
         this._wheelUp = false;
         this._wheelDown = false;
         this._dragStart = false;
@@ -42,7 +42,7 @@ class Mouse extends BaseObject {
         this._wheelUp = false;
         this._wheelDown = false;
         if (this._dragEnd) {
-            this._dragButton = this.buttons.none;
+            this._dragButton = Mouse.buttons.none;
             this._dragStart = false;
             this._dragMove = false;
             this._dragEnd = false;
