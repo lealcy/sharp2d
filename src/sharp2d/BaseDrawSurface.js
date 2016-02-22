@@ -1,6 +1,6 @@
 "use strict";
 
-class DrawSurface extends BaseObject {
+class BaseDrawSurface extends BaseObject {
     constructor(name) {
         super(name);
         this._width = 0;
@@ -16,7 +16,7 @@ class DrawSurface extends BaseObject {
     }
 
     rotate() {
-        
+
     }
 
     drawImage(imageSource, x, y) {

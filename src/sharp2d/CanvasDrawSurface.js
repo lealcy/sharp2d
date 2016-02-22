@@ -1,6 +1,6 @@
 "use strict";
 
-class CanvasDrawSurface extends DrawSurface {
+class CanvasDrawSurface extends BaseDrawSurface {
     constructor(name, canvasElement) {
         super(name);
         this._canvas = canvasElement;
