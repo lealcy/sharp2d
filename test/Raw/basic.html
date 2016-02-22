@@ -22,9 +22,9 @@
         var canvas = document.querySelector("canvas");
         console.log(canvas);
         var game = new Game(canvas);
-        var player = new Entity();
-        player.addComponent(new Sprite("ball", "images/Soccer_Ball.png"));
-        game.world.addEntity(player);
+        var ball = new Entity();
+        ball.addComponent(new Sprite("ball", "images/Soccer_Ball.png"));
+        game.world.addEntity(ball);
         game.start();
     }
     </script>
