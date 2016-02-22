@@ -12,15 +12,15 @@ class BaseObject {
     }
 
     log() {
-        if (this.debug) {
-            console.log(this._name, "->", ...arguments);
+        if (this._debug) {
+            console.log(this._name, "(" + this.constructor.name + "):", ...arguments);
         }
     }
 
     error() {
         var message = Array.prototype.slice.call(arguments).join(" ");
-        var error = this._name + ": " + message;
-        if (this.debug) {
+        var error = this._name + " (" + this.constructor.name + "): " + message;
+        if (this._debug) {
             console.log(error);
         }
         throw new Error(error);
@@ -32,7 +32,7 @@ class BaseObject {
 
     callEvent(eventName, ...args) {
         if (this._enabled && eventName in this) {
-            this[eventName](...args);
+            this[eventName](eventName, ...args);
         }
     }
 
@@ -40,15 +40,15 @@ class BaseObject {
         if (this._enabled && eventName in this) {
             var before = "before" + this._ucFirst(eventName);
             var after = "after" + this._ucFirst(eventName);
-            if(before in this && this[before](...args)) {
-                this[eventName](...args);
+            if(before in this && this[before](eventName, ...args)) {
+                this[eventName](eventName, ...args);
                 if(after in this) {
-                    this[after](...args);
+                    this[after](eventName, ...args);
                 }
             } else {
-                this[eventName](...args);
+                this[eventName](eventName, ...args);
                 if(after in this) {
-                    this[after](...args);
+                    this[after](eventName, ...args);
                 }
             }
         }
@@ -60,6 +60,14 @@ class BaseObject {
 
     get game() {
         return BaseObject.prototype._gameInstance;
+    }
+
+    get debug() {
+        return BaseObject.prototype._debug;
+    }
+
+    set debug(value) {
+        BaseObject.prototype._debug = value;
     }
 
     get enable() {
@@ -81,4 +89,4 @@ class BaseObject {
 
 BaseObject.prototype._objectList = [];
 BaseObject.prototype._gameInstance = null;
-BaseObject.prototype.debug = false;
+BaseObject.prototype._debug = false;

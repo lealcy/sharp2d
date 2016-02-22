@@ -4,12 +4,12 @@ class Game extends BaseObject {
     constructor(canvasElement) {
         super("Game");
         BaseObject.prototype._gameInstance = this;
-        this._drawSurface = new CanvasDrawSurface("defaultCanvas", canvasElement);
-        this._mouse = new Mouse("defaultMouse", canvasElement);
-        this._keyboard = new Keyboard("defaultKeyboard", canvasElement);
+        this._renderer = new CanvasRenderer("Canvas Renderer", canvasElement);
+        this._mouse = new Mouse("Default Mouse", canvasElement);
+        this._keyboard = new Keyboard("Default Keyboard", canvasElement);
         this._refreshInterval = 1000 / 60; // 60 fps. Glorious PC Master Race.
         this._clearOnUpdate = true;
-        this._world = new Entity("defaultComposition");
+        this._world = new Entity("World Entity");
         this._started = false;
 
         if (window.requestAnimationFrame) {
@@ -34,7 +34,7 @@ class Game extends BaseObject {
         }
         this.enable;
     }
-    
+
     get enable() {
         super.enable;
         this._animationFrame();
@@ -52,8 +52,8 @@ class Game extends BaseObject {
         return this._keyboard;
     }
 
-    get drawSurface() {
-        return this._drawSurface;
+    get renderer() {
+        return this._renderer;
     }
 
     get world() {
@@ -75,7 +75,7 @@ class Game extends BaseObject {
         if (this._enabled && this._started) {
             this._requestAnimFrame.call(window, this._animationFrame.bind(this));
             if (this._clearOnUpdate) {
-                this._drawSurface.clear();
+                this._renderer.clear();
             }
             this._world.callEventEx("animationFrame");
             this._mouse.update();

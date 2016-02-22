@@ -1,6 +1,6 @@
 "use strict";
 
-class BaseDrawSurface extends BaseObject {
+class BaseRenderer extends BaseObject {
     constructor(name) {
         super(name);
         this._width = 0;

@@ -3,27 +3,30 @@
 <head>
     <meta charset="utf-8">
     <title>Basic Sharp2d Structure</title>
-    <script src="../../src/sharp2d/BaseObject.js"></script>
-    <script src="../../src/sharp2d/DrawSurface.js"></script>
-    <script src="../../src/sharp2d/CanvasDrawSurface.js"></script>
-    <script src="../../src/sharp2d/Mouse.js"></script>
-    <script src="../../src/sharp2d/Keyboard.js"></script>
+    <script src="../../src/sharp2d/Core/BaseObject.js"></script>
+    <script src="../../src/sharp2d/Core/BaseRenderer.js"></script>
+    <script src="../../src/sharp2d/Renderers/CanvasRenderer.js"></script>
+    <script src="../../src/sharp2d/Core/Mouse.js"></script>
+    <script src="../../src/sharp2d/Core/Keyboard.js"></script>
     <script src="../../src/sharp2d/Game.js"></script>
-    <script src="../../src/sharp2d/Component.js"></script>
-    <script src="../../src/sharp2d/Transform.js"></script>
-    <script src="../../src/sharp2d/Entity.js"></script>
-    <script src="../../src/sharp2d/ImageSource.js"></script>
-    <script src="../../src/sharp2d/Sprite.js"></script>
+    <script src="../../src/sharp2d/Core/Component.js"></script>
+    <script src="../../src/sharp2d/Components/Transform.js"></script>
+    <script src="../../src/sharp2d/Core/Entity.js"></script>
+    <script src="../../src/sharp2d/Core/ImageSource.js"></script>
+    <script src="../../src/sharp2d/Components/Sprite.js"></script>
+    <script src="../../src/sharp2d/Components/FollowMouse.js"></script>
 </head>
 <body onload="init()">
     <canvas width="800" height="600" style="border 1px solid red"></canvas>
     <script>
     function init() {
         var canvas = document.querySelector("canvas");
-        console.log(canvas);
         var game = new Game(canvas);
+        game.debug = true;
         var ball = new Entity();
-        ball.addComponent(new Sprite("ball", "images/Soccer_Ball.png"));
+        ball.transform.pivot = Transform.pivots.center;
+        ball.addComponent(new Sprite("ball", ball, "images/Soccer_Ball.png"));
+        ball.addComponent(new FollowMouse("followMouse", ball));
         game.world.addEntity(ball);
         game.start();
     }
