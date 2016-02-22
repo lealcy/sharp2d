@@ -8,7 +8,6 @@ class Gravity extends Component {
     }
 
     update() {
-        console.log(this._vy);
         this._vy += this._acceleration;
         this.entity.transform.y += this._vy;
     }
