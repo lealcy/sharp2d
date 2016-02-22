@@ -73,6 +73,10 @@ class Mouse extends BaseObject {
         this._ignoreOutEvent = value;
     }
 
+    static get buttons() {
+        return Mouse.prototype._buttons;
+    }
+
     _mouseDown(e) {
         var e = this._normalizeDOMMouseEvent(e);
         this._buttonsDown[e.button] = true;
@@ -150,7 +154,7 @@ class Mouse extends BaseObject {
     }
 }
 
-Mouse.prototype.buttons = {
+Mouse.prototype._buttons = {
     none: -1,
     left: 0,
     center: 1,

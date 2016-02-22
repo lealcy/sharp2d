@@ -6,7 +6,7 @@ class Keyboard  extends BaseObject {
         this._canvas = canvasElement;
         this._keyDownList = new Set();
         this._keyUpList = new Set();
-        this._ignoreThisKeys = new Set([this.keys.f5, this.keys.f12]);
+        this._ignoreThisKeys = new Set([Keyboard.keys.f5, Keyboard.keys.f12]);
     }
 
     start() {
@@ -38,6 +38,10 @@ class Keyboard  extends BaseObject {
         return this._ignoreThisKeys.has(keyCode);
     }
 
+    static get keys() {
+        return Keyboard.prototype._keys;
+    }
+
     _keyDown(e) {
         if(this._ignoreThisKeys.has(e.keyCode)) {
             return true;
@@ -58,7 +62,7 @@ class Keyboard  extends BaseObject {
     }
 }
 
-Keyboard.prototype.keys = {
+Keyboard.prototype._keys = {
     backspace: 8,
     tab: 9,
     enter: 13,
