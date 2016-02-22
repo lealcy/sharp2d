@@ -3,9 +3,6 @@
 class Component extends BaseObject {
     constructor(name, entity) {
         super(name);
-        if (!name) {
-            this.error("All components must have names.");
-        }
         this._entity = entity;
     }
 
