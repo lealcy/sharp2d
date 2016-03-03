@@ -51,19 +51,20 @@ class Mouse extends BaseObject {
 
     get x() { return this._x; }
     get y() { return this._y; }
-    get leftDown() { return this._buttonsDown[this.buttons.left]; }
-    get centerDown() { return this._buttonsDown[this.buttons.center]; }
-    get rightDown() { return this._buttonsDown[this.buttons.right]; }
-    get leftUp() { return this._buttonsUp[this.buttons.left]; }
-    get centerUp() { return this._buttonsUp[this.buttons.center]; }
-    get rightUp() { return this._buttonsUp[this.buttons.right]; }
-    get leftClick() { return this._buttonsClick[this.buttons.left]; }
-    get centerClick() { return this._buttonsClick[this.buttons.center]; }
-    get rightClick() { return this._buttonsClick[this.buttons.right]; }
+    get leftDown() { return this._buttonsDown[Mouse.buttons.left]; }
+    get centerDown() { return this._buttonsDown[Mouse.buttons.center]; }
+    get rightDown() { return this._buttonsDown[Mouse.buttons.right]; }
+    get leftUp() { return this._buttonsUp[Mouse.buttons.left]; }
+    get centerUp() { return this._buttonsUp[Mouse.buttons.center]; }
+    get rightUp() { return this._buttonsUp[Mouse.buttons.right]; }
+    get leftClick() { return this._buttonsClick[Mouse.buttons.left]; }
+    get centerClick() { return this._buttonsClick[Mouse.buttons.center]; }
+    get rightClick() { return this._buttonsClick[Mouse.buttons.right]; }
     get wheelUp() { return this._wheelUp; }
     get wheelDown() { return this._wheelDown; }
     get out() { return this._out; }
     get contextMenu() { return this._context; }
+    get moved() { return this._move; }  
 
     get ignoreOutEvent() {
         return this._ignoreOutEvent;
@@ -119,10 +120,10 @@ class Mouse extends BaseObject {
     _mouseWheel(e) {
         var e = this._normalizeDOMMouseEvent(e);
         switch (e.wheelDirection) {
-            case this.buttons.wheelUp:
+            case Mouse.buttons.wheelUp:
                 this._wheelUp = true;
                 break;
-            case this.buttons.wheelDown:
+            case Mouse.buttons.wheelDown:
                 this._wheelDown = true;
                 break;
         }
