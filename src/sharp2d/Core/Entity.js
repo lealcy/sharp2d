@@ -3,24 +3,26 @@
 class Entity extends BaseObject {
     constructor(name) {
         super(name);
+        this._parent = null;
         this._components = [];
         this._entities = [];
-        this._transform = new Transform(this._name + ".transform", this);
+        this._transform = new Transform(this._name + ".transform");
     }
 
-    animationFrame(eventName, ...args) {
-        this._transform.callEvent("beforeUpdate", ...args);
-        this._components.forEach(component => component.callEvent("beforeUpdate", ...args));
-        this.callEvent("beforeUpdate", ...args);
+    animationFrame() {
+        this._transform.beforeUpdate(...arguments);
+        this._components.forEach(
+            component => component.beforeUpdate(...arguments)
+        );
 
-        this._transform.callEvent("update", ...args);
-        this._components.forEach(component => component.callEvent("update", ...args));
-        this.callEvent("update", ...args);
-        this._entities.forEach(entity => entity.callEvent(eventName, ...args));
+        this.update(...arguments);
+        this._animationFrame(...arguments);
+        this._entities.forEach(entity => entity.animationFrame(...arguments));
 
-        this.callEvent("afterUpdate", ...args);
-        this._components.forEach(component => component.callEvent("afterUpdate", ...args));
-        this._transform.callEvent("afterUpdate", ...args);
+        this._components.forEach(
+            component => component.afterUpdate(...arguments)
+        );
+        this._transform.afterUpdate(...arguments);
     }
 
     start() {
@@ -32,12 +34,44 @@ class Entity extends BaseObject {
     }
 
     addComponent(component) {
+        component.entity = this;
         this._components.push(component);
         return component;
     }
 
     addEntity(entity) {
+        entity.parent = this;
+        entity.transform.x = this.transform.centerX;
+        entity.transform.y = this.transform.centerY;
         this._entities.push(entity);
+        return entity;
+    }
+
+    callEvent(eventName, ...args) {
+        if (this._enabled) {
+            this._components.forEach(
+                component =>
+                    eventName in component && component[eventName](...arguments)
+            );
+            if (eventName in this) {
+                this[eventName](...arguments);
+            }
+            this._entities.forEach(entity => entity.callEvent(...arguments));
+        }
+    }
+
+    get parent() {
+        if (!this._parent) {
+            this.error("Entity doesn't have a parent.");
+        }
+        return this._parent;
+    }
+
+    set parent(value) {
+        if (this._parent) {
+            this.error("Entity already have a parent.");
+        }
+        this._parent = value;
     }
 
     get transform() {
@@ -46,6 +80,10 @@ class Entity extends BaseObject {
 
     set transform(value) {
         this._transform = value;
+    }
+
+    _animationFrame() {
+        // To be extended
     }
 
     /*    get mouseOver() {
