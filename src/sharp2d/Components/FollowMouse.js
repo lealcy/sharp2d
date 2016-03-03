@@ -2,9 +2,11 @@
 
 class FollowMouse extends Component {
 
-    update() {
+    beforeUpdate() {
         var mouse = this.game.mouse;
-        this.entity.transform.x = mouse.x;
-        this.entity.transform.y = mouse.y;
+        if (mouse.moved) {
+            this.entity.transform.x = mouse.x;
+            this.entity.transform.y = mouse.y;
+        }
     }
 }
