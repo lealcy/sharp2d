@@ -13,7 +13,7 @@
     <script src="../../src/sharp2d/Components/Transform.js"></script>
     <script src="../../src/sharp2d/Core/Entity.js"></script>
     <script src="../../src/sharp2d/Core/ImageSource.js"></script>
-    <script src="../../src/sharp2d/Components/Sprite.js"></script>
+    <script src="../../src/sharp2d/Core/Sprite.js"></script>
     <script src="../../src/sharp2d/Components/FollowMouse.js"></script>
     <script src="../../src/sharp2d/Components/Gravity.js"></script>
 </head>
@@ -21,15 +21,12 @@
     <canvas width="800" height="600" style="border 1px solid red"></canvas>
     <script>
     function init() {
+        Game.debug = true;
         var canvas = document.querySelector("canvas");
         var game = new Game(canvas);
-        game.debug = true;
-        var ball = new Entity();
-        ball.transform.pivot = Transform.pivots.center;
-        ball.transform.position(64, 64);
-        ball.addComponent(new Sprite("ball", ball, "images/Soccer_Ball.png"));
-        //ball.addComponent(new FollowMouse("followMouse", ball));
-        ball.addComponent(new Gravity("g", ball));
+        var ball = new Sprite(null, "images/Soccer_Ball.png");
+        //ball.addComponent(new Gravity());
+        ball.addComponent(new FollowMouse());
         game.world.addEntity(ball);
         game.start();
     }
