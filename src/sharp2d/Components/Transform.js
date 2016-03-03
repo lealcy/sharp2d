@@ -1,15 +1,15 @@
 "use strict";
 
 class Transform extends Component {
-    constructor(name, entity) {
-        super(name, entity);
+    constructor(name) {
+        super(name);
         this.defaults();
     }
 
     beforeUpdate() {
-        //this.log("beforeUpdate", this._entity, this._pivot, this._pivotX, this._pivotY);
         var renderer = this.game.renderer;
         renderer.saveContext();
+        renderer.translate(this._x, this._y);
         renderer.translate(this._pivotX, this._pivotY);
         renderer.transform(this._scaleWidth, this._skewHorizontal,
             this._skewVertical, this._scaleHeight, this._translateX,
@@ -33,7 +33,7 @@ class Transform extends Component {
         this._skewVertical = 0.0;
         this._translateX = 0;
         this._translateY = 0;
-        this._pivot = Transform.pivots.topLeft;
+        this._pivot = Transform.pivots.center;
         this._pivotX = 0;
         this._pivotY = 0;
     }
@@ -92,6 +92,15 @@ class Transform extends Component {
     set height(value) {
         this._height = value;
         this._updatePivot();
+    }
+
+    get centerX() {
+        var centerX = this._width / 2;
+        return centerX;
+    }
+
+    get centerY() {
+        return this._height / 2;
     }
 
     get scaleWidth() {
@@ -156,40 +165,40 @@ class Transform extends Component {
     _updatePivot() {
         switch(this._pivot) {
             case Transform.pivots.top:
-                this._pivotX = -(this.width / 2);
+                this._pivotX = -(this._width / 2);
                 this._pivotY = 0;
                 break;
             case Transform.pivots.topRight:
-                this._pivotX = -this.width;
+                this._pivotX = -this._width;
                 this._pivotY = 0;
                 break;
             case Transform.pivots.right:
-                this._pivotX = -this.width;
-                this._pivotY = -(this.height / 2);
+                this._pivotX = -this._width;
+                this._pivotY = -(this._height / 2);
                 break;
             case Transform.pivots.bottomRight:
-                this._pivotX = -this.width;
-                this._pivotY = -this.height;
+                this._pivotX = -this._width;
+                this._pivotY = -this._height;
                 break;
             case Transform.pivots.bottom:
-                this._pivotX = -(this.width / 2);
-                this._pivotY = -this.height;
+                this._pivotX = -(this._width / 2);
+                this._pivotY = -this._height;
                 break;
             case Transform.pivots.bottomLeft:
                 this._pivotX = 0;
-                this._pivotY = -this.height;
+                this._pivotY = -this._height;
                 break;
             case Transform.pivots.left:
                 this._pivotX = 0;
-                this._pivotY = -(this.height / 2);
+                this._pivotY = -(this._height / 2);
                 break;
             case Transform.pivots.topLeft:
                 this._pivotX = 0;
                 this._pivotY = 0;
                 break;
             case Transform.pivots.center:
-                this._pivotX = -(this.width / 2);
-                this._pivotY = -(this.height / 2);
+                this._pivotX = -(this._width / 2);
+                this._pivotY = -(this._height / 2);
                 break;
             case Transform.pivots.custom:
                 break;
