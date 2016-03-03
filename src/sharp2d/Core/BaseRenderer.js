@@ -19,12 +19,11 @@ class BaseRenderer extends BaseObject {
 
     }
 
-    drawImage(imageSource, transform) {
+    drawImage(imageSource) {
         // Draws the image keeping its aspect ratio.
     }
 
-    drawImageClipped(imageSource, transform, offsetX, offsetY, clipWidth,
-        clipHeight) {
+    drawImageClipped(imageSource, offsetX, offsetY, clipWidth, clipHeight) {
         // Draws just part of the image.
     }
 

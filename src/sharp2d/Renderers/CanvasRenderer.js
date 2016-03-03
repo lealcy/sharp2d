@@ -9,9 +9,11 @@ class CanvasRenderer extends BaseRenderer {
         this._canvas.tabIndex = 1; // Make canvas a focusable object.
         this._canvas.style.outline = "none"; // Disable the focus outline.
         this._canvas.focus();
-
         this._width = this._canvas.width;
         this._height = this._canvas.height;
+
+        //super.width = this._canvas.width;
+        //super.height = this._canvas.height;
         this._context = this._canvas.getContext("2d");
     }
 
@@ -27,17 +29,14 @@ class CanvasRenderer extends BaseRenderer {
         this._context.rotate(...arguments);
     }
 
-    drawImage(imageSource, x, y) {
-        //console.log("drawImage");
-        this._context.drawImage(imageSource.image, x, y);
+    drawImage(imageSource) {
+        this._context.drawImage(imageSource.image, 0, 0);
     }
 
-    drawImageResize(imageSource, x, y, width, height) {
-        this._context.drawImage(...arguments);
-    }
-
-    drawImageClipped(imageSource, sx, sy, swidth, sheight, x, y, width, height) {
-        this._context.drawImage(...arguments);
+    drawImageClipped(imageSource, offsetX, offsetY, clipWidth,
+        clipHeight) {
+        this._context.drawImage(imageSource.image, offsetX, offsetY, clipWidth,
+            clipHeight, 0, 0);
     }
 
     saveContext() {
@@ -52,8 +51,16 @@ class CanvasRenderer extends BaseRenderer {
         this._context.translate(x, y);
     }
 
+    get width() {
+        return super.width;
+    }
+
     set width(value) {
         super.width = this._canvas.width = value;
+    }
+
+    get height() {
+        return super.height;
     }
 
     set height(value) {
