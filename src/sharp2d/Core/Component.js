@@ -1,15 +1,31 @@
 "use strict";
 
 class Component extends BaseObject {
-    constructor(name, entity) {
+    constructor(name) {
         super(name);
-        if (typeof entity === undefined || !(entity instanceof Entity)) {
-            this.error("Every Component must have an Entity parent.");
-        }
-        this._entity = entity;
+
+        this._entity = null;
+    }
+
+    beforeUpdate() {
+        // Called before entity update();
+    }
+
+    afterUpdate() {
+        // Called after entity update();
     }
 
     get entity() {
+        if (!this._entity) {
+            this.error("The Component must be attached to an Entity.");
+        }
         return this._entity;
+    }
+
+    set entity(value) {
+        if (this._entity) {
+            this.error("The Entity for this Component already defined.");
+        }
+        this._entity = value;
     }
 }
