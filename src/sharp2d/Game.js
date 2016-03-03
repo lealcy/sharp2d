@@ -10,6 +10,9 @@ class Game extends BaseObject {
         this._refreshInterval = 1000 / 60; // 60 fps. Glorious PC Master Race.
         this._clearOnUpdate = true;
         this._world = new Entity("World Entity");
+        this._world.transform.width = this._renderer.width;
+        this._world.transform.height = this._renderer.height;
+        this._world.transform.pivot = Transform.pivots.topLeft;
         this._started = false;
 
         if (window.requestAnimationFrame) {
@@ -30,7 +33,7 @@ class Game extends BaseObject {
             this._started = true;
             this._mouse.start();
             this._keyboard.start();
-            this._world.callEventEx("start");
+            this._world.callEvent("start");
         }
         this.enable;
     }
@@ -63,7 +66,7 @@ class Game extends BaseObject {
     set world(value) {
         this._world = value;
         if (this._world) {
-            this._world.callEventEx("start");
+            this._world.callEvent("start");
         }
     }
 
@@ -77,7 +80,7 @@ class Game extends BaseObject {
             if (this._clearOnUpdate) {
                 this._renderer.clear();
             }
-            this._world.callEventEx("animationFrame");
+            this._world.animationFrame();
             this._mouse.update();
             this._keyboard.update();
         }
