@@ -19,15 +19,12 @@ class BaseRenderer extends BaseObject {
 
     }
 
-    drawImage(imageSource, x, y) {
+    drawImage(imageSource, transform) {
         // Draws the image keeping its aspect ratio.
     }
 
-    drawImageResize(imageSource, x, y, width, height) {
-        // Draws the image with custom proportions.
-    }
-
-    drawImageClipped(imageSource, sx, sy, swidth, sheight, x, y, width, height) {
+    drawImageClipped(imageSource, transform, offsetX, offsetY, clipWidth,
+        clipHeight) {
         // Draws just part of the image.
     }
 
@@ -58,6 +55,4 @@ class BaseRenderer extends BaseObject {
     set height(value) {
         this._height = value;
     }
-
-
 }
