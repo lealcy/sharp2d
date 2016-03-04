@@ -40,6 +40,10 @@ class BaseRenderer extends BaseObject {
     }
 
     drawFPSCounter() {
+
+    }
+
+    drawBoundBox(x, y, width, height) {
         
     }
 

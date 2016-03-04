@@ -17,6 +17,10 @@ class Entity extends BaseObject {
 
         this.update(...arguments);
         this._animationFrame(...arguments);
+        if (Game.debug) {
+            this.game.renderer.drawBoundBox(0, 0, this.transform.width, this.transform.height, "light red");
+        }
+
         this._entities.forEach(entity => entity.animationFrame(...arguments));
 
         this._components.forEach(
@@ -40,7 +44,7 @@ class Entity extends BaseObject {
     }
 
     getComponent(name) {
-        return this._components.find(component => component.name == name);
+        return this._components.find(component => component.name == name) || {};
     }
 
     addEntity(entity) {

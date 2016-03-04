@@ -55,6 +55,16 @@ class CanvasRenderer extends BaseRenderer {
         this._context.fillText((Math.round(1000 / this.game.deltaTime * 100) / 100) + " FPS (" + this.game.deltaTime + " ms)", 10, 10);
     }
 
+    drawBoundBox(x, y, width, height) {
+        this._context.beginPath();
+        this._context.lineWidth = 1;
+        this._context.strokeStyle = "OrangeRed";
+        this._context.rect(x, y, width, height);
+        this._context.moveTo(x, y);
+        this._context.lineTo(x + width, y + height);
+        this._context.stroke();
+    }
+
     get width() {
         return super.width;
     }
