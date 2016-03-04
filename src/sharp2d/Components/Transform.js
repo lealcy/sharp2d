@@ -10,11 +10,11 @@ class Transform extends Component {
         var renderer = this.game.renderer;
         renderer.saveContext();
         renderer.translate(this._x, this._y);
+        renderer.rotate(this._rotateAngle * Math.PI / 180);
         renderer.translate(this._pivotX, this._pivotY);
         renderer.transform(this._scaleWidth, this._skewHorizontal,
             this._skewVertical, this._scaleHeight, this._translateX,
             this._translateY);
-        renderer.rotate(this._rotateAngle * Math.PI / 180);
     }
 
     afterUpdate() {
