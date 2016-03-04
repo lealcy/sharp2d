@@ -90,6 +90,9 @@ class Game extends BaseObject {
                 this._renderer.clear();
             }
             this._world.animationFrame();
+            if (Game.debug) {
+                this._renderer.drawFPSCounter();
+            }
             this._mouse.update();
             this._keyboard.update();
         }

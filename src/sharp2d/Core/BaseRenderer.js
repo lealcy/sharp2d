@@ -39,6 +39,10 @@ class BaseRenderer extends BaseObject {
         // Moves the coordinate system by the x,y offset.
     }
 
+    drawFPSCounter() {
+        
+    }
+
     get width() {
         return this._width;
     }

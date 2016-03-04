@@ -51,6 +51,10 @@ class CanvasRenderer extends BaseRenderer {
         this._context.translate(x, y);
     }
 
+    drawFPSCounter() {
+        this._context.fillText((Math.round(1000 / this.game.deltaTime * 100) / 100) + " FPS (" + this.game.deltaTime + " ms)", 10, 10);
+    }
+
     get width() {
         return super.width;
     }
