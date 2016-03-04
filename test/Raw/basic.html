@@ -16,6 +16,7 @@
     <script src="../../src/sharp2d/Core/Sprite.js"></script>
     <script src="../../src/sharp2d/Components/FollowMouse.js"></script>
     <script src="../../src/sharp2d/Components/Gravity.js"></script>
+    <script src="../../src/sharp2d/Components/Spin.js"></script>
 </head>
 <body onload="init()">
     <canvas width="800" height="600" style="border 1px solid red"></canvas>
@@ -25,8 +26,11 @@
         var canvas = document.querySelector("canvas");
         var game = new Game(canvas);
         var ball = new Sprite(null, "images/Soccer_Ball.png");
-        //ball.addComponent(new Gravity());
         ball.addComponent(new FollowMouse());
+        ball.addComponent(new Spin("spin"));
+        ball.update = function() {
+            ball.getComponent("spin").angle = ball.transform.y;
+        }
         game.world.addEntity(ball);
         game.start();
     }
