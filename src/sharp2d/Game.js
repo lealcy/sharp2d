@@ -83,7 +83,6 @@ class Game extends BaseObject {
     _animationFrame(timestamp) {
         this._deltaTime = timestamp - this._processTime;
         this._processTime = timestamp;
-        console.log(timestamp, this._deltaTime);
         if (this._enabled && this._started) {
             this._requestAnimFrame.call(window, this._animationFrame.bind(this));
             if (this._clearOnUpdate) {
