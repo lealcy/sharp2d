@@ -39,6 +39,10 @@ class Entity extends BaseObject {
         return component;
     }
 
+    getComponent(name) {
+        return this._components.find(component => component.name == name);
+    }
+
     addEntity(entity) {
         entity.parent = this;
         entity.transform.x = this.transform.centerX;
