@@ -14,6 +14,8 @@ class Game extends BaseObject {
         this._world.transform.height = this._renderer.height;
         this._world.transform.pivot = Transform.pivots.topLeft;
         this._started = false;
+        this._deltaTime = 0;
+        this._processTime = 0;
 
         if (window.requestAnimationFrame) {
             this._requestAnimFrame = window.requestAnimationFrame;
@@ -59,6 +61,10 @@ class Game extends BaseObject {
         return this._renderer;
     }
 
+    get deltaTime() {
+        return this._deltaTime;
+    }
+
     get world() {
         return this._world;
     }
@@ -74,7 +80,10 @@ class Game extends BaseObject {
         this._clearOnUpdate = value;
     }
 
-    _animationFrame() {
+    _animationFrame(timestamp) {
+        this._deltaTime = timestamp - this._processTime;
+        this._processTime = timestamp;
+        console.log(timestamp, this._deltaTime);
         if (this._enabled && this._started) {
             this._requestAnimFrame.call(window, this._animationFrame.bind(this));
             if (this._clearOnUpdate) {
