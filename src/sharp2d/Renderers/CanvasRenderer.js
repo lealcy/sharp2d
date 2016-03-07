@@ -15,6 +15,7 @@ class CanvasRenderer extends BaseRenderer {
         //super.width = this._canvas.width;
         //super.height = this._canvas.height;
         this._context = this._canvas.getContext("2d");
+        this._fullScreen = false;
     }
 
     clear () {
@@ -33,8 +34,7 @@ class CanvasRenderer extends BaseRenderer {
         this._context.drawImage(imageSource.image, 0, 0);
     }
 
-    drawImageClipped(imageSource, offsetX, offsetY, clipWidth,
-        clipHeight) {
+    drawImageClipped(imageSource, offsetX, offsetY, clipWidth, clipHeight) {
         this._context.drawImage(imageSource.image, offsetX, offsetY, clipWidth,
             clipHeight, 0, 0);
     }
@@ -81,4 +81,18 @@ class CanvasRenderer extends BaseRenderer {
         super.height = this._canvas.height = value;
     }
 
+    get fullScreen() {
+        return this._fullScreen;
+    }
+
+    set fullScreen(value) {
+        this._fullScreen = value;
+        if (value) {
+            var requestFullScreen = this._canvas.webkitRequestFullScreen ||
+                this._canvas.mozRequestFullScreen;
+            if (requestFullScreen) {
+                requestFullScreen();
+            }
+        }
+    }
 }

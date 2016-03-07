@@ -22,8 +22,10 @@
     <canvas width="800" height="600" style="border 1px solid red"></canvas>
     <script>
     function init() {
-        Game.debug = true;
+        //Game.debug = true;
         var canvas = document.querySelector("canvas");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
         var game = new Game(canvas);
         var ball = new Sprite(null, "images/Soccer_Ball.png");
         ball.addComponent(new FollowMouse());
