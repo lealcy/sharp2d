@@ -52,7 +52,10 @@ class CanvasRenderer extends BaseRenderer {
     }
 
     drawFPSCounter() {
-        this._context.fillText((Math.round(1000 / this.game.deltaTime * 100) / 100) + " FPS (" + this.game.deltaTime + " ms)", 10, 10);
+        this._context.fillText(
+            (Math.round(1000 / this.game.deltaTime * 100) / 100) + 
+                " FPS (" + (Math.round(this.game.deltaTime * 1000) / 1000) + 
+                " ms) FrameCount: " + this.game.frameCount, 10, 10);
     }
 
     drawBoundBox(x, y, width, height) {
