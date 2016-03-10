@@ -10,31 +10,29 @@ class Entity extends BaseObject {
     }
 
     animationFrame() {
-        this._transform.beforeUpdate(...arguments);
-        this._components.forEach(
-            component => component.beforeUpdate(...arguments)
-        );
+        if (this.enabled) {
+            this._transform.callEvent("beforeUpdate", ...arguments);
+            this._components.forEach(
+                component => component.callEvent("beforeUpdate", ...arguments)
+            );
 
-        this.update(...arguments);
-        this._animationFrame(...arguments);
-        if (Game.debug) {
-            this.game.renderer.drawBoundBox(0, 0, this.transform.width, this.transform.height, "light red");
+            this._animationFrame(...arguments);
+            this._components.forEach(
+                component => component.callEvent("update", ...arguments)
+            );
+            if (Game.debug) {
+                this.game.renderer.drawBoundBox(0, 0, this.transform.width, 
+                    this.transform.height, "light red");
+            }
+
+            this._entities.forEach(entity => 
+                entity.animationFrame(...arguments));
+
+            this._components.forEach(
+                component => component.callEvent("afterUpdate", ...arguments)
+            );
+            this._transform.callEvent("afterUpdate", ...arguments);
         }
-
-        this._entities.forEach(entity => entity.animationFrame(...arguments));
-
-        this._components.forEach(
-            component => component.afterUpdate(...arguments)
-        );
-        this._transform.afterUpdate(...arguments);
-    }
-
-    start() {
-        // To be extended.
-    }
-
-    update() {
-        // To be extended.
     }
 
     addComponent(component) {
@@ -44,7 +42,7 @@ class Entity extends BaseObject {
     }
 
     getComponent(name) {
-        return this._components.find(component => component.name == name) || {};
+        return this._components.find(component => component.name == name);
     }
 
     addEntity(entity) {
@@ -55,15 +53,12 @@ class Entity extends BaseObject {
         return entity;
     }
 
-    callEvent(eventName, ...args) {
+    callEvent(eventName) {
         if (this._enabled) {
             this._components.forEach(
                 component =>
                     eventName in component && component[eventName](...arguments)
             );
-            if (eventName in this) {
-                this[eventName](...arguments);
-            }
             this._entities.forEach(entity => entity.callEvent(...arguments));
         }
     }

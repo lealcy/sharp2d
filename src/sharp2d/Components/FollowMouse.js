@@ -1,7 +1,6 @@
 "use strict";
 
-class FollowMouse extends Component {
-
+class FollowMouse extends Behavior {
     beforeUpdate() {
         var mouse = this.game.mouse;
         if (mouse.moved) {

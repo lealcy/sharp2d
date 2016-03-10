@@ -1,6 +1,6 @@
 "use strict";
 
-class Gravity extends Component {
+class Gravity extends Behavior {
     constructor(name, entity, acceleration, terminalVelocity) {
         super(name, entity);
         this._acceleration = acceleration || 1.1;

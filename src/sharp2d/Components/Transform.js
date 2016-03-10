@@ -1,6 +1,6 @@
 "use strict";
 
-class Transform extends Component {
+class Transform extends Behavior {
     constructor(name) {
         super(name);
         this.defaults();

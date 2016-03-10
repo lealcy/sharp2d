@@ -6,13 +6,11 @@ class Component extends BaseObject {
 
         this._entity = null;
     }
-
-    beforeUpdate() {
-        // Called before entity update();
-    }
-
-    afterUpdate() {
-        // Called after entity update();
+    
+    callEvent(eventName) {
+        if (this.enabled && eventName in this) {
+            this[eventName](...arguments);
+        }
     }
 
     get entity() {
@@ -27,5 +25,8 @@ class Component extends BaseObject {
             this.error("The Entity for this Component already defined.");
         }
         this._entity = value;
+        if (this.game.started) {
+            this.start();
+        }
     }
 }

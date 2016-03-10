@@ -1,6 +1,6 @@
 "use strict";
 
-class Spin extends Component {
+class Spin extends Behavior {
     constructor(name, angle) {
         super(name);
         this._angle = angle || 1;
