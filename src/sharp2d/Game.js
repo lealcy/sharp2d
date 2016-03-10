@@ -4,6 +4,7 @@ class Game extends BaseObject {
     constructor(canvasElement) {
         super("Game");
         BaseObject.prototype._gameInstance = this;
+        this._started = false;
         this._renderer = new CanvasRenderer("Canvas Renderer", canvasElement);
         this._mouse = new Mouse("Default Mouse", canvasElement);
         this._keyboard = new Keyboard("Default Keyboard", canvasElement);
@@ -13,9 +14,11 @@ class Game extends BaseObject {
         this._world.transform.width = this._renderer.width;
         this._world.transform.height = this._renderer.height;
         this._world.transform.pivot = Transform.pivots.topLeft;
-        this._started = false;
+        this._world.addComponent(this._mouse);
+        this._world.addComponent(this._keyboard);
         this._deltaTime = 0;
         this._processTime = 0;
+        this._frameCount = 0;
 
         if (window.requestAnimationFrame) {
             this._requestAnimFrame = window.requestAnimationFrame;
@@ -32,17 +35,22 @@ class Game extends BaseObject {
 
     start() {
         if (!this._started) {
-            this._started = true;
-            this._mouse.start();
-            this._keyboard.start();
             this._world.callEvent("start");
+            this._started = true;
         }
         this.enable;
     }
 
     get enable() {
+        if (!this._started) {
+            this.start();
+        }
         super.enable;
         this._animationFrame();
+    }
+    
+    get disable() {
+        this.error("Game cannot be disabled.");
     }
 
     get started() {
@@ -75,12 +83,21 @@ class Game extends BaseObject {
             this._world.callEvent("start");
         }
     }
+    
+    get clearOnUpdate() {
+        return this._clearOnUpdate;
+    }
 
     set clearOnUpdate(value) {
         this._clearOnUpdate = value;
     }
-
+    
+    get frameCount() {
+        return this._frameCount;
+    }
+    
     _animationFrame(timestamp) {
+        this._frameCount++;
         this._deltaTime = timestamp - this._processTime;
         this._processTime = timestamp;
         if (this._enabled && this._started) {
@@ -92,8 +109,6 @@ class Game extends BaseObject {
             if (Game.debug) {
                 this._renderer.drawFPSCounter();
             }
-            this._mouse.update();
-            this._keyboard.update();
         }
     }
 }
