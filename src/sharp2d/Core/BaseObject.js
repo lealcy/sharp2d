@@ -15,6 +15,7 @@ class BaseObject {
         if (this._debug) {
             console.log(this._name, "(" + this.constructor.name + "):", ...arguments);
         }
+        return true;
     }
 
     error() {
