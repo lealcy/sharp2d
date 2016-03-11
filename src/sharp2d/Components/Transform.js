@@ -203,8 +203,7 @@ class Transform extends Behavior {
             case Transform.pivots.custom:
                 break;
             default:
-                this._x = 0;
-                this._y = 0;
+                this.error("Invalid pivot:", this._pivot);
                 break;
         }
     }
