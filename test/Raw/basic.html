@@ -20,7 +20,7 @@
     <script src="../../src/sharp2d/Game.js"></script>
 </head>
 <body onload="init()">
-    <canvas width="800" height="600" style="border 1px solid red"></canvas>
+    <canvas width="800" height="600" style="border: 1px solid red"></canvas>
     <script>
     function init() {
         //Game.debug = true;
@@ -33,7 +33,7 @@
         ball.addComponent(new Spin("spin"));
         ball.addComponent(new Behavior()).update = function() {
             ball.getComponent("spin").angle = ball.transform.y / 10;
-        }
+        };
         game.world.addEntity(ball);
         game.start();
     }
