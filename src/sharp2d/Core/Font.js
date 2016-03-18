@@ -7,10 +7,10 @@ class Font extends BaseObject {
     }
     
     defaults() {
-        this._style = "";
-        this._variant = "";
-        this._weight = "";
-        this._lineHeight = "";
+        this._style = Font.defaultStyle;
+        this._variant = Font.defaultVariant;
+        this._weight = Font.defaultWeight;
+        this._lineHeight = Font.defaultLineHeight;
         this._size = Font.defaultSize;
         this._family = Font.defaultFamily;
         this._shorthand = "";
@@ -106,36 +106,20 @@ class Font extends BaseObject {
     
     _updateShorthand() {
         var shorthand = "";
-        var first = true;
         if (this._style) {
-            if (!first) {
-                shorthand += " ";
-            }
-            first = false;
-            shorthand += this._style;
+            shorthand += this._style + " ";
         }
         if (this._variant) {
-            if (!first) {
-                shorthand += " ";
-            }
-            first = false;
-            shorthand += this._variant;
+            shorthand += this._variant + " ";
         }
         if (this._weight) {
-            if (!first) {
-                shorthand += " ";
-            }
-            first = false;
-            shorthand += this._weight;
-        }
-        if (!first) {
-            shorthand += " ";
+            shorthand += this._weight + " ";
         }
         shorthand += this.size || Font.defaultSize;
         if (this._lineHeight) {
             shorthand += "/" + this._lineHeight;
         }
-        shorthand += this._family || Font.defaultFamily;
+        shorthand += " " + (this._family || Font.defaultFamily);
         this._shorthand = shorthand;
     }
 }

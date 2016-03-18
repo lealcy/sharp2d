@@ -16,6 +16,6 @@ class Text extends Entity {
     }
     
     _animationFrame() {
-        this.game
+        //this.game
     }
 }

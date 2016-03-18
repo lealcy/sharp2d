@@ -19,8 +19,9 @@ class TextTransform extends Transform {
     defaults() {
         super.defaults();
         this._font = new Font();
-        this._align = 
-        this._direction = this.directions.inherit;
+        this._align = this.defaultAlignment;
+        this._baseline = this.defaultBaseline;
+        this._direction = this.defaultDirection;
     }
 
     get direction() {
@@ -30,6 +31,14 @@ class TextTransform extends Transform {
     set direction(value) {
         this._direction = value;
     }
+    
+    static get alignments() {
+        return TextTransform.prototype._alignments;
+    }
+    
+    static get baselines() {
+        return TextTransform.prototype._baselines;
+    }
 
     static get directions() {
         return TextTransform.prototype._directions;
@@ -38,8 +47,21 @@ class TextTransform extends Transform {
 }
 
 TextTransform.prototype._alignments = {
-    left: 
+    left: "left",
+    right: "right",
+    center: "center",
+    start: "start",
+    end: "end", 
 };
+
+TextTransform.prototype._baselines = {
+    top: "top",
+    hanging: "hanging",
+    middle: "middle",
+    alphabetic: "alphabetic",
+    ideographic: "ideographic",
+    bottom: "bottom", 
+}
 
 TextTransform.prototype._directions = {
     ltr: "ltr",
