@@ -47,8 +47,8 @@ class Entity extends BaseObject {
 
     addEntity(entity) {
         entity.parent = this;
-        entity.transform.x = this.transform.centerX;
-        entity.transform.y = this.transform.centerY;
+        //entity.transform.x = this.transform.centerX;
+        //entity.transform.y = this.transform.centerY;
         this._entities.push(entity);
         return entity;
     }

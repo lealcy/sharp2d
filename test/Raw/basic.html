@@ -27,12 +27,28 @@
         var canvas = document.querySelector("canvas");
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        var game = new Game(canvas);
-        var ball = new Sprite(null, "images/Soccer_Ball.png");
+        game = new Game(canvas); // game is GLOBAL.
+        class Ball extends Sprite {
+            constructor(name) {
+                super(name, "images/Bia.png");
+            }
+        }
+        var ball = new Ball();
         ball.addComponent(new FollowMouse());
         ball.addComponent(new Spin("spin"));
         ball.addComponent(new Behavior()).update = function() {
-            ball.getComponent("spin").angle = ball.transform.y / 10;
+            //ball.getComponent("spin").angle = ball.transform.y / 10;
+            if (game.mouse.leftDown) 
+            {
+                var newBall = new Ball();
+                newBall.transform.x = ball.transform.x;
+                newBall.transform.y = ball.transform.y;
+//                newBall.transform.scale(0.25, 0.25);
+                newBall.addComponent(new Spin());
+                game.world.addEntity(newBall);
+                console.log(game.world._entities.length, 
+                    Math.round(1000 / game.deltaTime));
+            }
         };
         game.world.addEntity(ball);
         game.start();
