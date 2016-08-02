@@ -1,0 +1,26 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    // Controls the font family.
+    "editor.fontFamily": "'Ubuntu Mono', 'Droid Sans Mono', 'Courier New', monospace, 'Droid Sans Fallback'",
+
+    // Controls the font size.
+    "editor.fontSize": 13,
+
+    // Controls visibility of line numbers
+    "editor.lineNumbers": true,
+
+    // Controls visibility of the glyph margin
+    "editor.glyphMargin": true,
+
+    // Columns at which to show vertical rulers
+    "editor.rulers": [80, 120],
+
+    // Controls after how many characters the editor will wrap to the next line. Setting this to 0 turns on viewport width wrapping (word wrapping). Setting this to -1 forces the editor to never wrap.
+    "editor.wrappingColumn": 120,
+
+    // Controls the indentation of wrapped lines. Can be one of 'none', 'same' or 'indent'.
+    "editor.wrappingIndent": "indent",
+
+    // Controls whether the editor should render indent guides
+    "editor.renderIndentGuides": true,
+}

@@ -3,8 +3,17 @@
 <head>
     <meta charset="utf-8">
     <title>Basic Sharp2d Structure</title>
+    <script src="../../src/core/BaseObject.js"></script>
+    <script src="../../src/core/CanvasRenderer.js"></script>
+    <script src="../../src/core/Keyboard.js"></script>
+    <script src="../../src/core/Mouse.js"></script>
+    <script src="../../src/Game.js"></script>
 </head>
-<body onload="init()">
+<body>
     <canvas width="800" height="600" style="border: 1px solid red"></canvas>
+    <script>
+        let g = new Game(document.getElementsByTagName("canvas")[0]);
+        g.start();
+    </script>
 </body>
 </html>
