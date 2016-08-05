@@ -25,7 +25,7 @@ class Vector extends BaseObject {
         return v1.x * v2.x + v1.y * v2.y;
     }
 
-    static lerp(vector1.)
+    //static lerp(vector1.)
 
     get x() {
         return this._x;

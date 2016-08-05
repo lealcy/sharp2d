@@ -24,12 +24,10 @@ class CanvasRenderer extends BaseObject {
         this.timestamp = timestamp;
         this.deltaTime = (timestamp - this.lastTimestamp) / (1000 / 60);
 
-        this.context.fillStyle = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.random()})`;
+        this.context.fillStyle = `rgba(${Math.floor(Math.random() * 256 * this.deltaTime)}, ${Math.floor(Math.random() * 256 * this.deltaTime)}, ${Math.floor(Math.random() * 256 * this.deltaTime)}, ${Math.random()})`;
         this.context.fillText(this.deltaTime, Math.random() * 800, Math.random() * 600);
 
-        this.game.callEvent("update", this);
         this.game.callEvent("enterFrame", this);
-        this.game.callEvent("lateUpdate", this);
         this.lastTimestamp = timestamp;
         this.frameCount++;
     }

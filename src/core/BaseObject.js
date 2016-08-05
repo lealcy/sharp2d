@@ -15,7 +15,6 @@ class BaseObject {
         this.instances.push(obj);
         this.sortLayers();
         return obj;
-
     }
 
     remove(classObject) {
@@ -50,5 +49,4 @@ class BaseObject {
     update() {} // Called before the frame is updated.
     enterFrame() {} // Called every time the frame is updated.
     lateUpdate() {} // Called after the frame is updated.
-
 }
